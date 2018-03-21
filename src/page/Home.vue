@@ -4,6 +4,7 @@
     :data="gridData"
     :columns="columns"
     :loadMore="loadMore"
+    :isLoadBusy="isLoadBusy"
     >
     </grid-table>
   </section>
@@ -19,8 +20,7 @@ export default {
   },
   data () {
     return {
-      isFixed: false,
-      msg: 'Welcome to Your Vue.js App',
+      isLoadBusy: false,
       columns: ['name', 'power'],
       gridData: [
         { id: 1, name: 'Chuck Norris', power: Infinity },
@@ -64,16 +64,13 @@ export default {
   },
   methods: {
     loadMore () {
-      console.log('--home load more-')
-      // this.busy = true
-
-      // console.log(`gridData length start: ${this.gridData.length}`)
-
-      for (var i = 0, j = 10; i < j; i++) {
-        this.gridData.push({ name: 'test' })
-      }
-      // this.busy = false
-      // console.log(`gridData length end: ${this.gridData.length}`)
+      this.isLoadBusy = true
+      setTimeout(() => {
+        for (var i = 0, j = 10; i < j; i++) {
+          this.gridData.push({ name: 'test' })
+        }
+        this.isLoadBusy = false
+      }, 1000)
     }
   }
 }

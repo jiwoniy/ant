@@ -30,6 +30,7 @@
           </td>
         </tr>
       </tbody>
+      <spinner v-if="isLoadBusy"></spinner>
 
     </table>
     <modal-comp
@@ -42,17 +43,20 @@
 <script>
 import _throttle from 'lodash.throttle'
 import ModalComp from '@/components/ModalComp'
+import Spinner from '@/components/UI/Spinner'
 
 export default {
   name: 'GridTable',
   components: {
-    ModalComp
+    ModalComp,
+    Spinner
   },
   props: {
     data: Array,
     columns: Array,
     filterKey: String,
-    loadMore: Function
+    loadMore: Function,
+    isLoadBusy: Boolean
   },
   data: function () {
     var sortOrders = {}
@@ -114,10 +118,6 @@ export default {
       }
     }
   },
-  // beforeMount () {
-  //   console.log(document.getElementById('gridTable'))
-  //   // document.getElementById('gridTable').addEventListener('scroll', _throttle(this.handleScroll, 250))
-  // },
   mounted () {
     this.scrollElement = document.getElementById('tableBody')
     this.headerElement = document.getElementById('tableHead')
