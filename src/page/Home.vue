@@ -12,6 +12,7 @@
 
 <script>
 import GridTable from '@/components/GridTable'
+import { message } from '@/api'
 
 export default {
   name: 'Home',
@@ -65,12 +66,15 @@ export default {
   methods: {
     loadMore () {
       this.isLoadBusy = true
-      setTimeout(() => {
-        for (var i = 0, j = 10; i < j; i++) {
-          this.gridData.push({ name: 'test' })
-        }
-        this.isLoadBusy = false
-      }, 1000)
+
+      message.getMessage()
+        .then(result => console.log(result))
+      // setTimeout(() => {
+      //   for (var i = 0, j = 10; i < j; i++) {
+      //     this.gridData.push({ name: 'test' })
+      //   }
+      //   this.isLoadBusy = false
+      // }, 1000)
     }
   }
 }

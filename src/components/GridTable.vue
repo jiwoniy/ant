@@ -20,7 +20,7 @@
         <tr
           v-for="entry in filteredData"
           :key="entry.id"
-          v-on:click="handleModal"
+          v-on:click="handleModal(entry)"
         >
           <td
             v-for="key in columns"
@@ -36,6 +36,7 @@
     <modal-comp
       :showModal="showModal"
       :handleModal="handleModal"
+      :data="selectedData"
     ></modal-comp>
   </div>
 </template>
@@ -52,11 +53,25 @@ export default {
     Spinner
   },
   props: {
-    data: Array,
-    columns: Array,
-    filterKey: String,
-    loadMore: Function,
-    isLoadBusy: Boolean
+    data: {
+      type: Array,
+      default: () => []
+    },
+    columns: {
+      type: Array,
+      default: () => []
+    },
+    filterKey: {
+      type: String
+    },
+    loadMore: {
+      type: Function,
+      default: () => {}
+    },
+    isLoadBusy: {
+      type: Boolean,
+      default: () => false
+    }
   },
   data: function () {
     var sortOrders = {}
@@ -67,6 +82,7 @@ export default {
       scrollElement: null,
       headerElement: null,
       showModal: false,
+      selectedData: null,
       tbodyStyle: {
         height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
         // see App.vue css variable
@@ -109,7 +125,12 @@ export default {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
-    handleModal () {
+    handleModal (entry) {
+      if (entry) {
+        this.selectedData = entry
+      } else {
+        this.selectedData = null
+      }
       this.showModal = !this.showModal
     },
     handleScroll () {
@@ -146,6 +167,8 @@ export default {
     background-color: #fff;
 
     thead {
+      display: block;
+
       th {
         height: var(--thead-height);
         background-color: #42b983;
@@ -156,23 +179,8 @@ export default {
         -ms-user-select: none;
         user-select: none;
 
-        min-width: 120px;
-        padding: 10px 20px;
-      }
-    }
-
-    tbody {
-      display: block;
-      overflow: auto;
-      // height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2) - (var(--grid-padding) * 2) - var(--thead-height));
-
-      td {
-        background-color: #f9f9f9;
-      }
-
-      th, td {
-        min-width: 120px;
-        padding: 10px 20px;
+        width: 120px;
+        padding: 5px 5px;
       }
 
       th.active {
@@ -181,6 +189,20 @@ export default {
 
       th.active .arrow {
         opacity: 1;
+      }
+    }
+
+    tbody {
+      display: block;
+      overflow: auto;
+      // height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2) - (var(--grid-padding) * 2) - var(--thead-height));
+      tr {
+        cursor: pointer;
+        td {
+          background-color: #f9f9f9;
+          width: 120px;
+          padding: 5px 5px;
+        }
       }
     }
   }

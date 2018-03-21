@@ -1,29 +1,36 @@
 <template>
   <transition v-if="showModal">
     <div class="modal-mask">
-      <div class="modal-wrapper">
+      <div class="modal-wrapper" v-on:click="clickModalWrapper">
         <div class="modal-container">
 
           <div class="modal-header">
-            <slot name="header">
-              default header
-            </slot>
+            <h2> {{ bindData.name }}
+              <!-- <b-badge>New</b-badge> -->
+            </h2>
           </div>
 
           <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
+            <h4> {{ bindData.name }} </h4>
+            <b-card no-body>
+              <b-tabs card>
+                <b-tab title="Intent" active>
+                  Tab Contents 1
+                </b-tab>
+                <b-tab title="Entitiy">
+                  Tab Contents 2
+                </b-tab>
+              </b-tabs>
+            </b-card>
           </div>
 
           <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="closeModal">
-                OK
-              </button>
-            </slot>
+            <b-button-group>
+              <b-button @click.stop="closeModal"> OK </b-button>
+              <b-button @click.stop="closeModal"> Cancel </b-button>
+            </b-button-group>
           </div>
+
         </div>
       </div>
     </div>
@@ -42,11 +49,30 @@ export default {
     handleModal: {
       type: Function,
       required: true
+    },
+    data: {
+      type: Object,
+      default: () => {}
     }
   },
   methods: {
     closeModal () {
+      // TODO save or cancel
       this.handleModal()
+    },
+    clickModalWrapper (event) {
+      if (this.showModal) {
+        if (event.target.className === 'modal-wrapper') {
+          this.closeModal()
+        }
+      }
+    }
+  },
+  computed: {
+    bindData () {
+      return {
+        ...this.data
+      }
     }
   }
   // mounted () {
@@ -74,8 +100,9 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
+  width: 80%;
+  height: 80%;
+  margin: 10px auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
@@ -90,11 +117,7 @@ export default {
 }
 
 .modal-body {
-  margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
+  padding: 10px auto;
 }
 
 /*
