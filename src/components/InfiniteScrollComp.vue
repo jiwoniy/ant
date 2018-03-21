@@ -43,10 +43,7 @@ export default {
 </script>
 
 <style scoped>
-  .infinite-scroll {
-    overflow-x: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+.infinite-scroll {
+  position: relative;
+}
 </style>

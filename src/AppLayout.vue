@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import TopMenu from '@/components/TopMenu'
-import SideMenu from '@/components/SideMenu'
+import TopMenu from '@/components/Menu/Top'
+import SideMenu from '@/components/Menu/Side'
 
 export default {
   name: 'App',
@@ -34,12 +34,14 @@ export default {
     }
   }
 }
+
 </script>
 
 <style socoped>
 .layout {
   height: 100%;
   display: flex;
+  overflow-x: hidden;
 }
 
 .layout--xsm, .layout--sm, .layout--md {
@@ -57,8 +59,8 @@ export default {
 .router--xsm, .router--sm, .router--md {
   width: 100%;
   position: absolute;
-  width: 100%;
-  top: 100px;
+  top: calc(var(--to-menu-height) + (var(--to-menu-padding) * 2));
+
 }
 
 .router--lg, .router--xlg {
@@ -66,4 +68,5 @@ export default {
   width: calc(100% - 200px);
   left: 200px;
 }
+
 </style>

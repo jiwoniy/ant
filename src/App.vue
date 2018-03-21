@@ -20,6 +20,10 @@ html {
   height: 100%;
   body {
     height: 100%;
+
+    --app-margin: 10px;
+    --to-menu-height: 60px;
+    --to-menu-padding: 5px;
   }
 }
 
@@ -31,6 +35,6 @@ html {
   color: #2c3e50;
   height: 100%;
 
-  margin: 10px;
+  margin: var(--ap-margin);
 }
 </style>

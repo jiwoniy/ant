@@ -16,7 +16,7 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody :style="tbodyStyle">
         <tr
           v-for="entry in filteredData"
           :key="entry.id"
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-// register the grid component
 export default {
   props: {
     data: Array,
@@ -48,6 +47,11 @@ export default {
       sortOrders[key] = 1
     })
     return {
+      tbodyStyle: {
+        height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
+        // see App.vue css variable
+        // height - (app margin * 2) - (top menu height) - (top menu padding) - (grid padding * 2) - (thed padding)
+      },
       sortKey: '',
       sortOrders
     }
@@ -90,9 +94,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .grid {
+  --thead-height: 50px;
+  --grid-padding: 10px;
+  padding: var(--grid-padding);
   width: 100%;
+  height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2));
 
   table {
     border: 2px solid #42b983;
@@ -100,10 +107,9 @@ export default {
     background-color: #fff;
 
     thead {
-      // position: fixed;
-      height: 60px;
 
       th {
+        height: var(--thead-height);
         background-color: #42b983;
         color: rgba(255,255,255,0.66);
         cursor: pointer;
@@ -115,8 +121,9 @@ export default {
     }
 
     tbody {
-      // position: absolute;
-      // top: 60px;
+      display: block;
+      overflow: auto;
+      // height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2) - (var(--grid-padding) * 2) - var(--thead-height));
 
       td {
         background-color: #f9f9f9;

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div id="topMenu" class="topMenu">
     <nav v-on:click.prevent>
       <router-link to="/"> Home </router-link>
       <router-link to="/projects"> Projects </router-link>
@@ -9,12 +9,37 @@
   </div>
 </template>
 
+<script>
+import _throttle from 'lodash.throttle'
+
+export default {
+  name: 'TopMenu',
+  methods: {
+    handleScroll: _throttle(() => {
+      const header = document.getElementById('topMenu')
+      const sticky = header.offsetTop
+      if (window.pageYOffset >= sticky) {
+        header.classList.add('sticky')
+      } else {
+        header.classList.remove('sticky')
+      }
+    }, 250)
+  },
+  beforeMount () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+}
+</script>
+
 <style lang="scss" scoped>
-.menu {
-  position: fixed;
-  height: 100px;
-  top: 0;
-  left: 0;
+.topMenu {
+  position: relative;
+  width: 100%;
+  height: var(--to-menu-height);
+  padding: var(--to-menu-padding);
 
   nav {
     display: inline-block;
@@ -73,5 +98,10 @@
   .resource {
     margin: 20px 0;
   }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
 }
 </style>

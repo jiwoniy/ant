@@ -1,10 +1,5 @@
 <template>
   <section class="home">
-    <!-- <fixed-header :fixed.sync="isFixed">
-      <div>
-        Your Content
-      </div>
-    </fixed-header> -->
     <infinite-scroll-comp
       :datas="gridData"
     >
@@ -18,14 +13,12 @@
 </template>
 
 <script>
-// import FixedHeader from '@/components/FixedHeader'
 import GridTable from '@/components/GridTable'
 import InfiniteScrollComp from '@/components/InfiniteScrollComp'
 
 export default {
   name: 'Home',
   components: {
-    // FixedHeader,
     InfiniteScrollComp,
     GridTable
   },
