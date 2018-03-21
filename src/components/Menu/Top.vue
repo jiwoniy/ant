@@ -16,7 +16,6 @@ export default {
   name: 'TopMenu',
   methods: {
     handleScroll: _throttle(() => {
-      console.log('---top handle scroll--')
       const header = document.getElementById('topMenu')
       const sticky = header.offsetTop
       if (window.pageYOffset >= sticky) {

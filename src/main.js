@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 
 import './plugins/vue-mq'
-import './plugins/vue-infinite-scroll'
 
 Vue.config.productionTip = false
 

@@ -65,16 +65,14 @@ export default {
   methods: {
     loadMore () {
       console.log('--home load more-')
-      this.busy = true
+      // this.busy = true
 
       // console.log(`gridData length start: ${this.gridData.length}`)
 
-      // setTimeout(() => {
-      //   for (var i = 0, j = 10; i < j; i++) {
-      //     this.gridData.push({ name: 'test' })
-      //   }
-      //   this.busy = false
-      // }, 1000)
+      for (var i = 0, j = 10; i < j; i++) {
+        this.gridData.push({ name: 'test' })
+      }
+      // this.busy = false
       // console.log(`gridData length end: ${this.gridData.length}`)
     }
   }

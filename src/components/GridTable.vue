@@ -2,7 +2,7 @@
   <div class="grid">
     <table>
 
-      <thead>
+      <thead id="tableHead">
         <tr>
           <th
             v-for="key in columns"
@@ -60,7 +60,8 @@ export default {
       sortOrders[key] = 1
     })
     return {
-      girdElement: null,
+      scrollElement: null,
+      headerElement: null,
       showModal: false,
       tbodyStyle: {
         height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
@@ -108,7 +109,7 @@ export default {
       this.showModal = !this.showModal
     },
     handleScroll () {
-      if (this.scrollElement.offsetTop + this.scrollElement.scrollTop > this.scrollElement.offsetHeight) {
+      if (this.scrollElement.scrollTop + this.scrollElement.offsetHeight >= this.scrollElement.scrollHeight) {
         this.loadMore()
       }
     }
@@ -119,6 +120,7 @@ export default {
   // },
   mounted () {
     this.scrollElement = document.getElementById('tableBody')
+    this.headerElement = document.getElementById('tableHead')
     if (this.scrollElement) {
       this.scrollElement.addEventListener('scroll', _throttle(this.handleScroll, 250), true)
     }
