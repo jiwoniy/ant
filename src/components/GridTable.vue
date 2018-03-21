@@ -16,7 +16,7 @@
         </tr>
       </thead>
 
-      <tbody :style="tbodyStyle">
+      <tbody :style="tbodyStyle" id="tableBody">
         <tr
           v-for="entry in filteredData"
           :key="entry.id"
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import _throttle from 'lodash.throttle'
 import ModalComp from '@/components/ModalComp'
 
 export default {
@@ -50,7 +51,8 @@ export default {
   props: {
     data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: String,
+    loadMore: Function
   },
   data: function () {
     var sortOrders = {}
@@ -58,6 +60,7 @@ export default {
       sortOrders[key] = 1
     })
     return {
+      girdElement: null,
       showModal: false,
       tbodyStyle: {
         height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
@@ -103,6 +106,26 @@ export default {
     },
     handleModal () {
       this.showModal = !this.showModal
+    },
+    handleScroll () {
+      if (this.scrollElement.offsetTop + this.scrollElement.scrollTop > this.scrollElement.offsetHeight) {
+        this.loadMore()
+      }
+    }
+  },
+  // beforeMount () {
+  //   console.log(document.getElementById('gridTable'))
+  //   // document.getElementById('gridTable').addEventListener('scroll', _throttle(this.handleScroll, 250))
+  // },
+  mounted () {
+    this.scrollElement = document.getElementById('tableBody')
+    if (this.scrollElement) {
+      this.scrollElement.addEventListener('scroll', _throttle(this.handleScroll, 250), true)
+    }
+  },
+  beforeDestroy () {
+    if (this.scrollElement) {
+      this.scrollElement.removeEventListener('scroll', this.handleScroll)
     }
   }
 }
@@ -113,7 +136,6 @@ export default {
   --thead-height: 50px;
   --grid-padding: 10px;
   padding: var(--grid-padding);
-  width: 100%;
   height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2));
 
   table {
