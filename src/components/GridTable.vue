@@ -19,14 +19,14 @@
       <tbody :style="tbodyStyle" id="tableBody">
         <tr
           v-for="entry in filteredData"
-          :key="entry.id"
+          :key="entry.pk"
           v-on:click="handleModal(entry)"
         >
           <td
-            v-for="key in columns"
-            :key="key"
+            v-for="item in columns"
+            :key="item.pk"
           >
-            {{entry[key]}}
+            {{ entry.message }}
           </td>
         </tr>
       </tbody>
@@ -179,7 +179,7 @@ export default {
         -ms-user-select: none;
         user-select: none;
 
-        width: 120px;
+        // width: 120px;
         padding: 5px 5px;
       }
 
@@ -200,7 +200,7 @@ export default {
         cursor: pointer;
         td {
           background-color: #f9f9f9;
-          width: 120px;
+          // width: 120px;
           padding: 5px 5px;
         }
       }

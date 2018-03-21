@@ -5,13 +5,13 @@
         <div class="modal-container">
 
           <div class="modal-header">
-            <h2> {{ bindData.name }}
+            <h2> edit
               <!-- <b-badge>New</b-badge> -->
             </h2>
           </div>
 
           <div class="modal-body">
-            <h4> {{ bindData.name }} </h4>
+            <h4> {{ bindData.message }} </h4>
             <b-card no-body>
               <b-tabs card>
                 <b-tab title="Intent" active>

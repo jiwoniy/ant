@@ -7,9 +7,8 @@ import memoizeInstance from '@/utils/memoize'
 const baseUrl = ''
 const path = {
   // // dashboard
-  getMessage (startDate, endDate, params) {
-    return Axios.get(`${baseUrl}/message`)
-  //   .then(result => typeCheckApi('user_dau', result));
+  getMessage (params = {}) {
+    return Axios.get(`${baseUrl}/message`, { params })
   }
 }
 
