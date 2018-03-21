@@ -20,6 +20,7 @@
         <tr
           v-for="entry in filteredData"
           :key="entry.id"
+          v-on:click="handleModal"
         >
           <td
             v-for="key in columns"
@@ -31,11 +32,21 @@
       </tbody>
 
     </table>
+    <modal-comp
+      :showModal="showModal"
+      :handleModal="handleModal"
+    ></modal-comp>
   </div>
 </template>
 
 <script>
+import ModalComp from '@/components/ModalComp'
+
 export default {
+  name: 'GridTable',
+  components: {
+    ModalComp
+  },
   props: {
     data: Array,
     columns: Array,
@@ -47,6 +58,7 @@ export default {
       sortOrders[key] = 1
     })
     return {
+      showModal: false,
       tbodyStyle: {
         height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
         // see App.vue css variable
@@ -88,6 +100,9 @@ export default {
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+    handleModal () {
+      this.showModal = !this.showModal
     }
   }
 }
@@ -107,7 +122,6 @@ export default {
     background-color: #fff;
 
     thead {
-
       th {
         height: var(--thead-height);
         background-color: #42b983;
@@ -117,6 +131,9 @@ export default {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+
+        min-width: 120px;
+        padding: 10px 20px;
       }
     }
 
