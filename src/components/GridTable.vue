@@ -8,8 +8,9 @@
             v-for="key in columns"
             :key="key"
             @click="sortBy(key)"
-            :class="{ active: sortKey == key }">
-            {{ key | capitalize }}
+            :class="`row__${key}`">
+            <!-- :class="{ active: sortKey == key }"> -->
+            {{ key }}
             <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
             </span>
           </th>
@@ -18,15 +19,16 @@
 
       <tbody :style="tbodyStyle" id="tableBody">
         <tr
-          v-for="entry in filteredData"
+          v-for="(entry) in filteredData"
           :key="entry.pk"
           v-on:click="handleModal(entry)"
         >
           <td
-            v-for="item in columns"
-            :key="item.pk"
+            v-for="key in columns"
+            :key="key"
+            :class="`row__${key}`"
           >
-            {{ entry.message }}
+            {{ entry[key] }}
           </td>
         </tr>
       </tbody>
@@ -162,49 +164,99 @@ export default {
   height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2));
 
   table {
-    border: 2px solid #42b983;
+    overflow-x: auto;
+    table-layout: fixed;
+    // border-spacing: 0.5rem;
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid #42b983;
     border-radius: 3px;
     background-color: #fff;
 
+    // white-space: nowrap;
+
+    tr {
+      width: 100%;
+    }
+
+    th, td {
+      // min-width: 120px;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     thead {
-      display: block;
+      width: 100%;
+      // display: block;
+      // overflow: auto;
 
       th {
+        text-align: center;
+    //     // display: inline-block;
         height: var(--thead-height);
-        background-color: #42b983;
-        color: rgba(255,255,255,0.66);
         cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-
-        // width: 120px;
-        padding: 5px 5px;
       }
+      // th {
+      //   text-align: center;
+      //   height: var(--thead-height);
+      //   background-color: #42b983;
+      //   color: rgba(255,255,255,0.66);
+      //   cursor: pointer;
+      //   -webkit-user-select: none;
+      //   -moz-user-select: none;
+      //   -ms-user-select: none;
+      //   user-select: none;
 
-      th.active {
-        color: #fff;
-      }
+      //   // width: 120px;
+      //   padding: 5px 5px;
+      // }
 
-      th.active .arrow {
-        opacity: 1;
-      }
+    //   th.active {
+    //     color: #fff;
+    //   }
+
+    //   th.active .arrow {
+    //     opacity: 1;
+    //   }
     }
 
     tbody {
-      display: block;
-      overflow: auto;
+      width: 100%;
+      // display: block;
+      // overflow: auto;
+      // display: block;
+
       // height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2) - (var(--grid-padding) * 2) - var(--thead-height));
       tr {
         cursor: pointer;
         td {
-          background-color: #f9f9f9;
-          // width: 120px;
-          padding: 5px 5px;
+          text-align: left;
         }
       }
+
+      tr:nth-child(odd) {
+        background: #eee;
+      }
     }
+  }
+
+  .row__pk {
+    // background-color: red;
+    width: 25%;
+  }
+  .row__message {
+    // background-color: red;
+    width: 25%;
+  }
+  .row__ai_intent {
+    // background-color: red;
+    width: 25%;
+  }
+  .row__ent_ai {
+    // background-color: red;
+    width: 25%;
   }
 
   .arrow {

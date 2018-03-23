@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import store from '@/store'
+// import store from '@/store'
 // import Home from '@/page/Home'
 // import Projects from '@/page/Projects'
 // import Contact from '@/page/Contact'
@@ -47,21 +47,21 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // console.log(to.name)
-  // console.log(from.name)
-  // console.log(next)
-  // console.log(store.state.auth.authenticated)
-  if (to.name !== 'Login' && !store.state.auth.authenticated) {
-    next({ name: 'Login' })
-  } else if (store.state.auth.authenticated && to.name === 'Login') {
-    next({
-      name: 'Home'
-    })
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   // console.log(to.name)
+//   // console.log(from.name)
+//   // console.log(next)
+//   // console.log(store.state.auth.authenticated)
+//   if (to.name !== 'Login' && !store.state.auth.authenticated) {
+//     next({ name: 'Login' })
+//   } else if (store.state.auth.authenticated && to.name === 'Login') {
+//     next({
+//       name: 'Home'
+//     })
+//   } else {
+//     next()
+//   }
+// })
 
 Vue.router = router
 

@@ -12,7 +12,7 @@
 
 <script>
 import GridTable from '@/components/GridTable'
-import { message } from '@/api'
+// import { message } from '@/api'
 
 export default {
   name: 'Home',
@@ -22,44 +22,44 @@ export default {
   data () {
     return {
       isLoadBusy: false,
-      columns: ['message', 'ai_intent', 'ent_ai'],
+      columns: ['pk', 'message', 'ai_intent', 'ent_ai'],
       gridData: [
-        // { id: 1, name: 'Chuck Norris', power: Infinity },
-        // { id: 2, name: 'Bruce Lee', power: 9000 },
-        // { id: 3, name: 'Jackie Chan', power: 7000 },
-        // { id: 4, name: 'Jet Li', power: 8000 },
-        // { id: 5, name: 'Chuck Norris', power: Infinity },
-        // { id: 6, name: 'Bruce Lee', power: 9000 },
-        // { id: 7, name: 'Jackie Chan', power: 7000 },
-        // { id: 8, name: 'Jet Li', power: 8000 },
-        // { id: 10, name: 'Chuck Norris', power: Infinity },
-        // { id: 11, name: 'Bruce Lee', power: 9000 },
-        // { id: 12, name: 'Jackie Chan', power: 7000 },
-        // { id: 13, name: 'Jet Li', power: 8000 },
-        // { id: 14, name: 'Chuck Norris', power: Infinity },
-        // { id: 15, name: 'Bruce Lee', power: 9000 },
-        // { id: 16, name: 'Jackie Chan', power: 7000 },
-        // { id: 17, name: 'Jet Li', power: 8000 },
-        // { id: 18, name: 'Chuck Norris', power: Infinity },
-        // { id: 19, name: 'Bruce Lee', power: 9000 },
-        // { id: 20, name: 'Jackie Chan', power: 7000 },
-        // { id: 21, name: 'Jet Li', power: 8000 },
-        // { id: 22, name: 'Chuck Norris', power: Infinity },
-        // { id: 23, name: 'Bruce Lee', power: 9000 },
-        // { id: 24, name: 'Jackie Chan', power: 7000 },
-        // { id: 25, name: 'Jet Li', power: 8000 },
-        // { id: 26, name: 'Chuck Norris', power: Infinity },
-        // { id: 27, name: 'Bruce Lee', power: 9000 },
-        // { id: 28, name: 'Jackie Chan', power: 7000 },
-        // { id: 29, name: 'Jet Li', power: 8000 },
-        // { id: 30, name: 'Chuck Norris', power: Infinity },
-        // { id: 31, name: 'Bruce Lee', power: 9000 },
-        // { id: 32, name: 'Jackie Chan', power: 7000 },
-        // { id: 33, name: 'Jet Li', power: 8000 },
-        // { id: 34, name: 'Chuck Norris', power: Infinity },
-        // { id: 35, name: 'Bruce Lee', power: 9000 },
-        // { id: 36, name: 'Jackie Chan', power: 7000 },
-        // { id: 37, name: 'Jet Li', power: 8000 }
+        { pk: 1, message: 'Chuck dddddfdfdddddChuck dddddfdfdddddddddddddChuck dddddfdfdddddddddddddddddddddddddddfdfddfdfdfdfdddfdfdNorris', power: Infinity },
+        { pk: 2, message: 'Bruce Lee', ai_intent: 9000, ent_ai: 'test' },
+        { pk: 3, message: 'Jackie Chan', power: 7000 },
+        { pk: 4, message: 'Jet Li', power: 8000 },
+        { pk: 5, message: 'Chuck Norris', power: Infinity },
+        { pk: 6, message: 'Bruce Lee', power: 9000 },
+        { pk: 7, message: 'Jackie Chan', power: 7000 },
+        { pk: 8, message: 'Jet Li', power: 8000 },
+        { pk: 10, message: 'Chuck Norris', power: Infinity },
+        { pk: 11, message: 'Bruce Lee', power: 9000 },
+        { pk: 12, message: 'Jackie Chan', power: 7000 },
+        { pk: 13, message: 'Jet Li', power: 8000 },
+        { pk: 14, message: 'Chuck Norris', power: Infinity },
+        { pk: 15, message: 'Bruce Lee', power: 9000 },
+        { pk: 16, message: 'Jackie Chan', power: 7000 },
+        { pk: 17, message: 'Jet Li', power: 8000 },
+        { pk: 18, message: 'Chuck Norris', power: Infinity },
+        { pk: 19, message: 'Bruce Lee', power: 9000 },
+        { pk: 20, message: 'Jackie Chan', power: 7000 },
+        { pk: 21, message: 'Jet Li', power: 8000 },
+        { pk: 22, message: 'Chuck Norris', power: Infinity },
+        { pk: 23, message: 'Bruce Lee', power: 9000 },
+        { pk: 24, message: 'Jackie Chan', power: 7000 },
+        { pk: 25, message: 'Jet Li', power: 8000 },
+        { pk: 26, message: 'Chuck Norris', power: Infinity },
+        { pk: 27, message: 'Bruce Lee', power: 9000 },
+        { pk: 28, message: 'Jackie Chan', power: 7000 },
+        { pk: 29, message: 'Jet Li', power: 8000 },
+        { pk: 30, message: 'Chuck Norris', power: Infinity },
+        { pk: 31, message: 'Bruce Lee', power: 9000 },
+        { pk: 32, message: 'Jackie Chan', power: 7000 },
+        { pk: 33, message: 'Jet Li', power: 8000 },
+        { pk: 34, message: 'Chuck Norris', power: Infinity },
+        { pk: 35, message: 'Bruce Lee', power: 9000 },
+        { pk: 36, message: 'Jackie Chan', power: 7000 },
+        { pk: 37, message: 'Jet Li', power: 8000 }
       ],
       apiCursor: null,
       apiQuery: {}
@@ -69,35 +69,36 @@ export default {
     loadMore () {
       this.isLoadBusy = true
 
-      if (this.apiCursor) {
-        const queryString = this.apiCursor.split('?')[1]
-        const query = decodeURIComponent(queryString)
-        const queryList = query.split('&')
-        queryList.forEach((queryUnit) => {
-          const list = queryUnit.split('=')
-          this.apiQuery[list[0]] = list[1]
-        })
-      }
+      // if (this.apiCursor) {
+      //   const queryString = this.apiCursor.split('?')[1]
+      //   const query = decodeURIComponent(queryString)
+      //   const queryList = query.split('&')
+      //   queryList.forEach((queryUnit) => {
+      //     const list = queryUnit.split('=')
+      //     this.apiQuery[list[0]] = list[1]
+      //   })
+      // }
 
-      message.getMessage({ cursor: this.apiQuery.cursor })
-        .then(response => {
-          const { data } = response
-          const { next, results } = data
-          this.apiCursor = next
-          this.isLoadBusy = false
-          this.gridData.push(...results)
-        })
-        .catch(error => {
-          this.isLoadBusy = false
-          console.log('message getMessage error')
-          console.log(error)
-        })
+      // message.getMessage({ cursor: this.apiQuery.cursor })
+      //   .then(response => {
+      //     const { data } = response
+      //     const { next, results } = data
+      //     this.apiCursor = next
+      //     this.isLoadBusy = false
+      //     this.gridData.push(...results)
+      //   })
+      //   .catch(error => {
+      //     this.isLoadBusy = false
+      //     console.log('message getMessage error')
+      //     console.log(error)
+      //   })
 
-      // setTimeout(() => {
-      //   for (var i = 0, j = 10; i < j; i++) {
-      //     this.gridData.push({ name: 'test' })
-      //   }
-      // }, 1000)
+      setTimeout(() => {
+        for (var i = 0, j = 10; i < j; i++) {
+          this.gridData.push({ name: 'test' })
+        }
+        this.isLoadBusy = false
+      }, 1000)
     }
   },
   mounted () {
