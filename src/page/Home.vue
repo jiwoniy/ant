@@ -95,7 +95,7 @@ export default {
 
       setTimeout(() => {
         for (var i = 0, j = 10; i < j; i++) {
-          this.gridData.push({ name: 'test' })
+          this.gridData.push({ pk: this.gridData.length + 2, message: 'Jackie Chan', power: 7000 })
         }
         this.isLoadBusy = false
       }, 1000)

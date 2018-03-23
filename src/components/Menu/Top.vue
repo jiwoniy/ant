@@ -36,6 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .topMenu {
+  overflow: hidden;
   position: relative;
   width: 100%;
   height: var(--to-menu-height);

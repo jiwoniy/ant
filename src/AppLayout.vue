@@ -41,7 +41,6 @@ export default {
 .layout {
   height: 100%;
   display: flex;
-  overflow-x: hidden;
 }
 
 .layout--xsm, .layout--sm, .layout--md {
@@ -60,7 +59,6 @@ export default {
   width: 100%;
   position: absolute;
   top: calc(var(--to-menu-height) + (var(--to-menu-padding) * 2));
-
 }
 
 .router--lg, .router--xlg {

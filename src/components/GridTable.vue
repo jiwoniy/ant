@@ -21,7 +21,7 @@
         <tr
           v-for="(entry) in filteredData"
           :key="entry.pk"
-          v-on:click="handleModal(entry)"
+          v-on:click="clickMessage(entry)"
         >
           <td
             v-for="key in columns"
@@ -30,16 +30,21 @@
           >
             {{ entry[key] }}
           </td>
+          <edit-table
+            v-if="selectedData ? selectedData.pk === entry.pk : false"
+            :handleLock="handleLock"
+          >
+            </edit-table>
         </tr>
       </tbody>
       <spinner v-if="isLoadBusy"></spinner>
 
     </table>
-    <modal-comp
+    <!-- <modal-comp
       :showModal="showModal"
       :handleModal="handleModal"
       :data="selectedData"
-    ></modal-comp>
+    ></modal-comp> -->
   </div>
 </template>
 
@@ -47,12 +52,14 @@
 import _throttle from 'lodash.throttle'
 import ModalComp from '@/components/ModalComp'
 import Spinner from '@/components/UI/Spinner'
+import EditTable from '@/components/EditTable'
 
 export default {
   name: 'GridTable',
   components: {
     ModalComp,
-    Spinner
+    Spinner,
+    EditTable
   },
   props: {
     data: {
@@ -127,13 +134,33 @@ export default {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
-    handleModal (entry) {
-      if (entry) {
-        this.selectedData = entry
-      } else {
+    // handleModal (entry) {
+    //   if (entry) {
+    //     this.selectedData = entry
+    //   } else {
+    //     this.selectedData = null
+    //   }
+    //   this.showModal = !this.showModal
+    // },
+    clickMessage (entry) {
+      this.handleLock(entry, null)
+    },
+    handleLock (entry, status) {
+      if (status) {
+        // TODO
+        // call by child
+        // status: true ===> savle
+        // status: false ===> cancel
         this.selectedData = null
+        // to lock or unlock
+      } else {
+        // call by this
+        if (entry) {
+          this.selectedData = entry
+        } else {
+          this.selectedData = null
+        }
       }
-      this.showModal = !this.showModal
     },
     handleScroll () {
       if (this.scrollElement.scrollTop + this.scrollElement.offsetHeight >= this.scrollElement.scrollHeight) {
@@ -166,21 +193,17 @@ export default {
   table {
     overflow-x: auto;
     table-layout: fixed;
-    // border-spacing: 0.5rem;
     width: 90%;
     margin: 0 auto;
     border: 1px solid #42b983;
     border-radius: 3px;
     background-color: #fff;
 
-    // white-space: nowrap;
-
     tr {
       width: 100%;
     }
 
     th, td {
-      // min-width: 120px;
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
@@ -189,12 +212,9 @@ export default {
 
     thead {
       width: 100%;
-      // display: block;
-      // overflow: auto;
 
       th {
         text-align: center;
-    //     // display: inline-block;
         height: var(--thead-height);
         cursor: pointer;
       }
@@ -213,22 +233,20 @@ export default {
       //   padding: 5px 5px;
       // }
 
-    //   th.active {
-    //     color: #fff;
-    //   }
+      th.active {
+        color: #fff;
+      }
 
-    //   th.active .arrow {
-    //     opacity: 1;
-    //   }
+      th.active .arrow {
+        opacity: 1;
+      }
     }
 
     tbody {
       width: 100%;
-      // display: block;
-      // overflow: auto;
-      // display: block;
+      overflow: scroll;
+      display: block;
 
-      // height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2) - (var(--grid-padding) * 2) - var(--thead-height));
       tr {
         cursor: pointer;
         td {
