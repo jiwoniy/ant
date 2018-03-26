@@ -13,8 +13,8 @@ import { auth } from '@/api'
 
 export default {
   CHECK: ({ commit }) => {
-    const token = window.localStorage.getItem('tfr_id_token')
-    const userId = localStorage.getItem('tfr_user_id')
+    const token = window.localStorage.getItem('tfr_id_token_ant')
+    const userId = localStorage.getItem('tfr_user_id_ant')
     if (!token) {
       commit('LOGOUT')
     } else {
@@ -30,7 +30,6 @@ export default {
     }
   },
   LOGIN: ({ commit }, user) => {
-    console.log(user)
     auth.token(user).then((result) => {
       commit('LOGIN', {
         token: result.data.token,

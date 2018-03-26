@@ -159,7 +159,6 @@ export default {
     handleCallback (entry, isSave) {
       if (isSave) {
         console.log(`isSave: ${isSave}`)
-        // console.log(entry)
         // TODO
         // status: true ===> save
         // check data is change or unchange
