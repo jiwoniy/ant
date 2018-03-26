@@ -19,9 +19,9 @@
 
       <tbody :style="tbodyStyle" id="tableBody">
         <tr
-          v-for="(entry) in filteredData"
+          v-for="(entry, idx) in filteredData"
           :key="entry.pk"
-          v-on:click="clickMessage(entry)"
+          v-on:click="clickMessage(entry, idx)"
         >
           <td
             v-for="key in columns"
@@ -31,8 +31,9 @@
             {{ entry[key] }}
           </td>
           <edit-table
-            v-if="selectedData ? selectedData.pk === entry.pk : false"
-            :handleLock="handleLock"
+            v-if="selected.data ? selected.data.pk === entry.pk : false"
+            :handleCallback="handleCallback"
+            :data="selected.data"
           >
             </edit-table>
         </tr>
@@ -91,7 +92,10 @@ export default {
       scrollElement: null,
       headerElement: null,
       showModal: false,
-      selectedData: null,
+      selected: {
+        data: null,
+        index: null
+      },
       tbodyStyle: {
         height: `${window.innerHeight - (10 * 2) - 60 - (5 * 2) - (10 * 2) - 50}px`
         // see App.vue css variable
@@ -142,25 +146,27 @@ export default {
     //   }
     //   this.showModal = !this.showModal
     // },
-    clickMessage (entry) {
-      this.handleLock(entry, null)
+    setSelected (from, to, idx) {
+      // console.log(`seleted index: ${idx}`)
+      // console.log(from)
+      // console.log(to)
+      this.selected.data = to
+      this.selected.index = idx
     },
-    handleLock (entry, status) {
-      if (status) {
+    clickMessage (entry, idx) {
+      this.setSelected(null, entry, idx)
+    },
+    handleCallback (entry, isSave) {
+      if (isSave) {
+        console.log(`isSave: ${isSave}`)
+        // console.log(entry)
         // TODO
-        // call by child
-        // status: true ===> savle
-        // status: false ===> cancel
-        this.selectedData = null
+        // status: true ===> save
+        // check data is change or unchange
+        this.data[this.selected.index] = entry
         // to lock or unlock
-      } else {
-        // call by this
-        if (entry) {
-          this.selectedData = entry
-        } else {
-          this.selectedData = null
-        }
       }
+      this.setSelected(this.selected.data, null, null)
     },
     handleScroll () {
       if (this.scrollElement.scrollTop + this.scrollElement.offsetHeight >= this.scrollElement.scrollHeight) {

@@ -1,6 +1,6 @@
 <template>
   <div class="edit">
-    <p> test </p>
+    <input v-model="updateData.message" />
     <b-button-group>
       <b-button @click.stop="closeUpdate(true)"> OK </b-button>
       <b-button @click.stop="closeUpdate(false)"> Cancel </b-button>
@@ -13,17 +13,37 @@
 export default {
   name: 'EditTable',
   props: {
-    handleLock: {
+    handleCallback: {
       type: Function,
       required: true
+    },
+    data: {
+      type: Object,
+      required: true,
+      default: () => {}
+    }
+  },
+  computed: {
+    updateData () {
+      return {
+        ...this.data
+      }
     }
   },
   methods: {
     closeUpdate (isSave) {
       // data
-      this.handleLock({}, isSave)
+      if (isSave) {
+        this.handleCallback(this.updateData, isSave)
+      } else {
+        this.handleCallback(this.data, isSave)
+      }
     }
   }
+  // mounted () {
+  //   console.log('---mounted---')
+  //   console.log(this.updateData)
+  // }
 }
 </script>
 
