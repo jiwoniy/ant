@@ -4,16 +4,16 @@
 
       <thead id="tableHead">
         <tr>
-          <th
+          <td
             v-for="key in columns"
             :key="key"
             @click="sortBy(key)"
-            :class="`row__${key}`">
+            :class="`th__row__${key}`">
             <!-- :class="{ active: sortKey == key }"> -->
             {{ key }}
             <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
             </span>
-          </th>
+          </td>
         </tr>
       </thead>
 
@@ -26,7 +26,7 @@
           <td
             v-for="key in columns"
             :key="key"
-            :class="`row__${key}`"
+            :class="`td__row__${key}`"
           >
             {{ entry[key] }}
           </td>
@@ -190,53 +190,47 @@ export default {
 
 <style lang="scss" scoped>
 .grid {
+  width: 100%;
   --thead-height: 50px;
   --grid-padding: 10px;
   padding: var(--grid-padding);
   height: calc(100% - var(--to-menu-height) - (var(--to-menu-padding) * 2));
 
   table {
+    width: 100%;
     overflow-x: auto;
     table-layout: fixed;
-    width: 90%;
-    margin: 0 auto;
-    border: 1px solid #42b983;
-    border-radius: 3px;
+    border: 0.5px solid #42b983;
+    border-radius: 1.5px;
+    border-collapse: collapse;
     background-color: #fff;
 
     tr {
+      display: block;
       width: 100%;
+      cursor: pointer;
     }
 
     th, td {
       display: inline-block;
+      height: var(--thead-height);
+      line-height: var(--thead-height);
+      padding: 0px 10px;
+      // vertical-align: middle;
+
+      table-layout: fixed;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      border: 0.2px solid #42b983;
+
+      font-size: 12px;
     }
 
     thead {
-      width: 100%;
-
       th {
         text-align: center;
-        height: var(--thead-height);
-        cursor: pointer;
       }
-      // th {
-      //   text-align: center;
-      //   height: var(--thead-height);
-      //   background-color: #42b983;
-      //   color: rgba(255,255,255,0.66);
-      //   cursor: pointer;
-      //   -webkit-user-select: none;
-      //   -moz-user-select: none;
-      //   -ms-user-select: none;
-      //   user-select: none;
-
-      //   // width: 120px;
-      //   padding: 5px 5px;
-      // }
 
       th.active {
         color: #fff;
@@ -247,39 +241,66 @@ export default {
       }
     }
 
-    tbody {
+    tbody, thead {
       width: 100%;
       overflow: scroll;
-      display: block;
-
-      tr {
-        cursor: pointer;
-        td {
-          text-align: left;
-        }
-      }
+      display: flex;
+      flex-direction: column;
 
       tr:nth-child(odd) {
         background: #eee;
       }
     }
-  }
 
-  .row__pk {
-    // background-color: red;
-    width: 25%;
-  }
-  .row__message {
-    // background-color: red;
-    width: 25%;
-  }
-  .row__ai_intent {
-    // background-color: red;
-    width: 25%;
-  }
-  .row__ent_ai {
-    // background-color: red;
-    width: 25%;
+    .th__row__pk {
+      text-align: center;
+      width: 5%;
+    }
+    .th__row__message {
+      text-align: center;
+      width: 19%;
+    }
+    .th__row__ai_intent {
+      text-align: center;
+      width: 19%;
+    }
+    .th__row__ai_agent {
+      text-align: center;
+      width: 19%;
+    }
+    .th__row__ent_ai {
+      text-align: center;
+      width: 19%;
+    }
+    .th__row__ent_ag {
+      text-align: center;
+      width: 19%;
+    }
+
+    .td__row__pk {
+      text-align: left;
+      width: 5%;
+    }
+    .td__row__message {
+      text-align: left;
+      width: 19%;
+    }
+    .td__row__ai_intent {
+      text-align: left;
+      width: 19%;
+    }
+    .td__row__ai_agent {
+      text-align: left;
+      width: 19%;
+    }
+    .td__row__ent_ai {
+      text-align: left;
+      width: 19%;
+    }
+    .td__row__ent_ag {
+      text-align: left;
+      width: 19%;
+    }
   }
 
   .arrow {

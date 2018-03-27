@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       isLoadBusy: false,
-      columns: ['pk', 'message', 'ai_intent', 'ai_agent', 'ent_ai'],
+      columns: ['pk', 'message', 'ai_intent', 'ai_agent', 'ent_ai', 'ent_ag'],
       gridData: messageJson.results,
       // [
       // { pk: 1, message: 'Chuck dddddfdfdddddChuck dddddfdfdddddddddddddChuck dddddfdfdddddddddddddddddddddddddddfdfddfdfdfdfdddfdfdNorris', power: Infinity },
@@ -96,9 +96,9 @@ export default {
       //   })
 
       setTimeout(() => {
-        // for (var i = 0, j = 10; i < j; i++) {
-        //   this.gridData.push({ pk: this.gridData.length + 2, message: 'Jackie Chan', power: 7000 })
-        // }
+        for (var i = 0, j = 10; i < j; i++) {
+          this.gridData.push({ pk: this.gridData.length + 2, message: 'Jackie Chan', power: 7000 })
+        }
         this.isLoadBusy = false
       }, 1000)
     }

@@ -6,13 +6,15 @@
     "message": "邊到未",
     "ai_intent": null,
     "ai_agent": [],
-    "ent_ai": null
+    "ent_ai": null,
+    "ent_ag": null
   }, {
     "pk": 492,
     "message": "LANG_zh_CN",
     "ai_intent": null,
     "ai_agent": [],
-    "ent_ai": null
+    "ent_ai": null,
+    "ent_ag": null
   }, {
     "pk": 491,
     "message": "USER_DEFINED_PAYLOAD",
