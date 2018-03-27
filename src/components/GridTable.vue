@@ -201,7 +201,7 @@ export default {
     width: 100%;
     overflow-x: auto;
     table-layout: fixed;
-    border: 0.5px solid #42b983;
+    border: 0.5px solid #5597b4;
     border-radius: 1.5px;
     border-collapse: collapse;
     background-color: #fff;
@@ -223,7 +223,7 @@ export default {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      border: 0.2px solid #42b983;
+      border: 0.2px solid #5597b4;
 
       font-size: 12px;
     }

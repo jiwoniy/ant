@@ -2,7 +2,7 @@
   <aside class="menu">
     <nav v-on:click.prevent>
       <router-link to="/"> Home </router-link>
-      <router-link to="/projects"> Projects </router-link>
+      <router-link to="/import"> Excel Import </router-link>
       <router-link to="/services"> Services </router-link>
       <router-link to="/contact"> Contact </router-link>
     </nav>

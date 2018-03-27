@@ -17,9 +17,9 @@ const router = new Router({
       component: () => import('@/page/Home')
     },
     {
-      path: '/projects',
-      name: 'Projects',
-      component: () => import('@/page/Projects')
+      path: '/import',
+      name: 'ExcelImport',
+      component: () => import('@/page/ExcelImport')
     },
     {
       path: '/services',
