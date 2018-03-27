@@ -1,13 +1,8 @@
 <template>
   <div
     class="wrapperStyle"
-    :style="{ height: wrapperStyle.height }"
   >
-
-    <header>
-      <p> {{ dataset.message }}</p>
-    </header>
-
+  <!-- :style="{ height: wrapperStyle.height }" -->
     <section>
       <div class="tab">
         <button
@@ -18,30 +13,35 @@
           @click="switchTab($event, 'Entity')">Entity</button>
       </div>
 
-      <!-- <div class="contentsHeader">
-        <button
-          @click="addIntent($event)">
-          add
-        </button>
-      </div> -->
+      <div class="header">
+        <p> Message:  {{ dataset.message }}</p>
+        <ul v-if="currentTab === 'Intent'">
+          <li
+              v-for="(entry, idx) in dataset['ai_intent']"
+              :key="idx"
+            >
+              {{ entry }}
+            </li>
+        </ul>
+
+        <ul v-if="currentTab === 'Entity'">
+          <li
+              v-for="(entry, idx) in dataset['ent_ai']"
+              :key="idx"
+            >
+              {{ entry }}
+            </li>
+        </ul>
+      </div>
 
       <div
         id="Intent"
         :class="[currentTab === 'Intent' ? ['tabContent', 'tabContent__active'] : ['tabContent', 'tabContent__none']]"
       >
-
-        <!-- <div>
-          <p
-            v-for="(entry, idx) in dataset['ai_agent']"
-            :key="idx"
-          > {{ entry[idx] }}
-          </p> -->
-
           <edit-table-list
             :data="dataset['ai_agent']"
           >
           </edit-table-list>
-        <!-- </div> -->
       </div>
 
       <div
@@ -49,7 +49,6 @@
         :class="[currentTab === 'Entity' ? ['tabContent', 'tabContent__active'] : ['tabContent', 'tabContent__none']]"
       >
         <h3>Entity</h3>
-        <p>Paris is the capital of France.</p>
       </div>
 
     </section>
@@ -84,14 +83,16 @@ export default {
   },
   data () {
     return {
-      wrapperStyle: {
-        height: `${window.innerHeight / 2}px`
-      },
+      // wrapperStyle: {
+      //   height: `${window.innerHeight / 2}px`
+      // },
       currentTab: 'Intent',
       dataset: {
+        pk: null,
         message: '',
         'ai_agent': [],
-        'ai_intent': []
+        'ai_intent': [],
+        'ent_ai': []
       }
     }
   },
@@ -105,6 +106,8 @@ export default {
     },
     switchTab (evt, currentTab) {
       this.currentTab = currentTab
+      console.log(this.currentTab)
+      console.log(this.dataset)
     }
     // addIntent (evt) {
     // console.log('--add Intent')
@@ -113,9 +116,11 @@ export default {
     // }
   },
   mounted () {
+    this.dataset.pk = this.data.pk
     this.dataset.message = this.data.message || ''
     this.dataset['ai_intent'] = (this.data['ai_intent'] && this.data['ai_intent'].slice()) || []
     this.dataset['ai_agent'] = (this.data['ai_agent'] && this.data['ai_agent'].slice()) || []
+    this.dataset['ent_ai'] = (this.data['ent_ai'] && this.data['ent_ai'].slice()) || []
   }
 }
 </script>
@@ -128,21 +133,24 @@ export default {
   justify-content: center;
   // background-color: blue;
 
-  header {
-    margin: 2px 5px;
-    flex: 0.15;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
   section {
-    flex: 0.7;
+    .header {
+      // margin: 10px auto;
+      // flex: 0.15;
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    // flex: 0.7;
     .tab {
       overflow: hidden;
       border: 1px solid #ccc;
-      background-color: #f1f1f1;
+      background-color: #5597b4;
+      opacity: 0.6;
     }
 
     .tab button {
@@ -160,11 +168,12 @@ export default {
     }
 
     .tabLinks__active {
-      background-color: red;
+      background-color: white;
     }
 
     .tabLinks__none {
-      background-color: #ccc;
+      background-color: #5597b4;
+      opacity: 1;
     }
 
     .tabContent {
@@ -190,7 +199,7 @@ export default {
   }
 
   footer {
-    flex: 0.15;
+    // flex: 0.15;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
