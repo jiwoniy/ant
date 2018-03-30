@@ -4,16 +4,6 @@
     <div class="panel">
       <slot></slot>
     </div>
-
-    <!-- <button class="accordion">Section 2</button>
-    <div class="panel">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-
-    <button class="accordion">Section 3</button>
-    <div class="panel">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div> -->
   </div>
 </template>
 
@@ -25,20 +15,11 @@ export default {
       type: String,
       default: () => 'Section',
       required: true
+    },
+    eventBus: {
+      type: Function,
+      default: () => {}
     }
-  //   showModal: {
-  //     type: Boolean,
-  //     defalut: () => false,
-  //     required: true
-  //   },
-  //   handleCallback: {
-  //     type: Function,
-  //     required: true
-  //   },
-  //   data: {
-  //     type: Object,
-  //     default: () => {}
-  //   }
   },
   data () {
     return {
@@ -64,17 +45,6 @@ export default {
       }
     }
   },
-  // computed: {
-  //   bindData () {
-  //     return {
-  //       'ai_intent': this.data['ai_intent'] || [],
-  //       'ent_ai': this.data['ent_ai'] || [],
-  //       'ai_agt': this.data['ai_agt'] || [],
-  //       'ent_agt': this.data['ent_agt'] || [],
-  //       ...this.data
-  //     }
-  //   }
-  // }
   beforeMount () {
     this.compId = this._uid
   },

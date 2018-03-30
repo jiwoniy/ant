@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'EditTableList',
+  name: 'AddList',
   props: {
     data: {
       type: Array,
@@ -56,10 +56,6 @@ export default {
       }
     }
   }
-  // mounted () {
-  //   console.log('--mounted--')
-  //   console.log(this.data)
-  // }
 }
 </script>
 

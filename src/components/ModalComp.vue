@@ -8,8 +8,10 @@
             <h2> edit
               <!-- <b-badge>New</b-badge> -->
             </h2>
+             <button @click="toggle">
+              toggle
+            </button>
           </div>
-
           <div class="modal-body">
             <input
               id="messageInput"
@@ -22,18 +24,39 @@
             <ui-accordion
               :sectionTitle="'ai intent'"
             >
-              <p> 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <intent-card
+                  v-for="(entry, idx) in bindData['ai_intent']"
+                  :key="idx"
+                  :data="entry"
+                >
+              </intent-card>
             </ui-accordion>
 
             <ui-accordion
               :sectionTitle="'ai agent'"
             >
-              <p> 2 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <intent-card
+                v-for="(entry, idx) in intentList"
+                :key="idx"
+                :data="entry"
+              >
+              </intent-card>
+              <add-list
+                :data="intentList"
+              >
+                </add-list>
             </ui-accordion>
+
             <ui-accordion
               :sectionTitle="'entity ai'"
             >
-              <p> 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <entity-card
+                v-for="(entry, idx) in bindData['ent_ai']"
+                :key="idx"
+                :data="entry"
+                :getEntityValue="getEntityValue"
+              >
+              </entity-card>
             </ui-accordion>
 
             <ui-accordion
@@ -44,26 +67,23 @@
                   v-for="(entry, idx) in entityList"
                   :key="idx"
                   :data="entry"
+                  :getEntityValue="getEntityValue"
+                  :isCategory="true"
                 >
                 </entity-card>
               </div>
               <div class="button--layout">
-                <!-- <b-button variant="success">Success</b-button>
-                <b-button variant="info">Info</b-button>
-                <b-button variant="warning">Warning</b-button>
-                <b-button variant="primary">Primary</b-button>
-                <b-button variant="danger">Danger</b-button>
-                <b-button variant="link">Link</b-button> -->
                 <button
                   v-for="(entry) in categoryList"
                   :key="entry"
                   :data="entry"
-                  @click="selectCategory(entry)"
+                  @click="selectEntityCategory(entry)"
                 >
                 {{ entry }}
                 </button>
               </div>
             </ui-accordion>
+
           </div>
 
           <div class="modal-footer">
@@ -81,6 +101,8 @@
 
 <script>
 import EntityCard from './EntityCard'
+import IntentCard from './IntentCard'
+import AddList from './AddList'
 import UiAccordion from './UI/Accordion'
 
 import categoryList from '@/api/category.json'
@@ -89,6 +111,8 @@ export default {
   name: 'ModalComp',
   components: {
     EntityCard,
+    IntentCard,
+    AddList,
     UiAccordion
   },
   props: {
@@ -109,12 +133,20 @@ export default {
   data () {
     return {
       inputElement: null,
+      intentList: [],
       entityList: [],
-      categoryList: Object.keys(categoryList.category)
+      categoryList: Object.keys(categoryList.category),
+      getEntityValue: (data, name) => data[name]
       // selectedMessage: null
     }
   },
   methods: {
+    toggle () {
+      const accordionChildren = this.$children
+      for (let i = 0; i < accordionChildren.length; i += 1) {
+        accordionChildren[i].handleDisplay(accordionChildren[i].accordionElem[0])
+      }
+    },
     closeModal () {
       // TODO save or cancel
       this.handleCallback()
@@ -129,10 +161,7 @@ export default {
     // selectMessage () {
     //   this.selectedMessage = window.getSelection().toString()
     // },
-    selectCategory (category) {
-      // console.log('----selectCategory----')
-      // console.log(categoryList.category)
-      // console.log(categoryList.category)
+    selectEntityCategory (category) {
       const selectedMessage = window.getSelection().toString()
       if (category && selectedMessage) {
         this.entityList.push({
@@ -140,6 +169,12 @@ export default {
           category
         })
       }
+    },
+    updateTwowayBinding (computedParentData) {
+      // console.log('--updateTwowayBinding--')
+      // console.log(computedParentData)
+      this.entityList = computedParentData['ent_agt']
+      this.intentList = computedParentData['ai_agt']
     }
   },
   computed: {
@@ -154,8 +189,8 @@ export default {
     }
   },
   mounted () {
-    console.log('---mounted---')
-    // console.log(this.bindData)
+    // console.log('---mounted---')
+    this.updateTwowayBinding(this.bindData)
   }
 }
 </script>

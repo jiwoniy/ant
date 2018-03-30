@@ -6,21 +6,26 @@
     </header>
 
     <div class="card__container container">
-      <p class="card-text">
-        Sentence: {{ data.sentence }}
+      <p
+        class="card-text"
+        v-for="(entry, idx) in entityProps"
+        :key="idx"
+      >
+        {{ entry }} : {{ getEntityValue(data, entry) }}
       </p>
-      <p class="card-text">
-        Category: {{ data.category }}
-      </p>
-      SubCategory: <select>
-        <option
-          v-for="(entry, idx) in subCategoryOptions"
-            :key="idx"
-            :data="entry"
-        > {{ subCategoryOptions[idx] }}
+      <div
+        v-if="isCategory"
+      >
+        SubCategory: <select>
+          <option
+            v-for="(entry, idx) in subCategoryOptions"
+              :key="idx"
+              :data="entry"
+          > {{ subCategoryOptions[idx] }}
 
-        </option>
-      </select>
+          </option>
+        </select>
+      </div>
     </div>
 
     <!-- <footer class="card__container footer">
@@ -38,19 +43,26 @@ export default {
     data: {
       type: Object,
       default: () => {}
+    },
+    getEntityValue: {
+      type: Function,
+      default: () => ''
+    },
+    isCategory: {
+      type: Boolean,
+      default: () => false
     }
   },
   data () {
     return {
-      subCategoryOptions: []
+      subCategoryOptions: [],
+      entityProps: []
     }
   },
   mounted () {
-    console.log('---mounted---')
-    console.log(this.data.category)
-    console.log(categoryList.category[this.data.category])
+    this.entityProps = Object.keys(this.data)
     this.subCategoryOptions = categoryList.category[this.data.category]
-    console.log(this.subCategoryOptions)
+    // console.log(this.subCategoryOptions)
   }
 }
 </script>

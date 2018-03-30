@@ -42,6 +42,7 @@
 
     </table>
     <modal-comp
+      v-if="showModal"
       :showModal="showModal"
       :handleCallback="handleCallback"
       :data="selected.data"
@@ -149,7 +150,6 @@ export default {
     setSelected (from, to, idx) {
       this.selected.data = to
       this.selected.index = idx
-
       this.showModal = !this.showModal
     },
     clickMessage (entry, idx) {
