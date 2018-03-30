@@ -30,22 +30,22 @@
           >
             {{ entry[key] }}
           </td>
-          <edit-table
+          <!-- <edit-table
             v-if="selected.data ? selected.data.pk === entry.pk : false"
             :handleCallback="handleCallback"
             :data="selected.data"
           >
-            </edit-table>
+            </edit-table> -->
         </tr>
       </tbody>
       <spinner v-if="isLoadBusy"></spinner>
 
     </table>
-    <!-- <modal-comp
+    <modal-comp
       :showModal="showModal"
-      :handleModal="handleModal"
-      :data="selectedData"
-    ></modal-comp> -->
+      :handleCallback="handleCallback"
+      :data="selected.data"
+    ></modal-comp>
   </div>
 </template>
 
@@ -53,14 +53,14 @@
 import _throttle from 'lodash.throttle'
 import ModalComp from '@/components/ModalComp'
 import Spinner from '@/components/UI/Spinner'
-import EditTable from '@/components/EditTable'
+// import EditTable from '@/components/EditTable'
 
 export default {
   name: 'GridTable',
   components: {
     ModalComp,
-    Spinner,
-    EditTable
+    Spinner
+    // EditTable
   },
   props: {
     data: {
@@ -147,11 +147,10 @@ export default {
     //   this.showModal = !this.showModal
     // },
     setSelected (from, to, idx) {
-      // console.log(`seleted index: ${idx}`)
-      // console.log(from)
-      // console.log(to)
       this.selected.data = to
       this.selected.index = idx
+
+      this.showModal = !this.showModal
     },
     clickMessage (entry, idx) {
       this.setSelected(null, entry, idx)

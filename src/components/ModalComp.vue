@@ -11,17 +11,59 @@
           </div>
 
           <div class="modal-body">
-            <h4> {{ bindData.message }} </h4>
-            <b-card no-body>
-              <b-tabs card>
-                <b-tab title="Intent" active>
-                  Tab Contents 1
-                </b-tab>
-                <b-tab title="Entitiy">
-                  Tab Contents 2
-                </b-tab>
-              </b-tabs>
-            </b-card>
+            <input
+              id="messageInput"
+              type="text"
+              class="input__message"
+              :value="bindData.message"
+              disabled
+            />
+
+            <ui-accordion
+              :sectionTitle="'ai intent'"
+            >
+              <p> 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </ui-accordion>
+
+            <ui-accordion
+              :sectionTitle="'ai agent'"
+            >
+              <p> 2 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </ui-accordion>
+            <ui-accordion
+              :sectionTitle="'entity ai'"
+            >
+              <p> 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </ui-accordion>
+
+            <ui-accordion
+              :sectionTitle="'entity agent'"
+            >
+              <div class="card--layout">
+                <entity-card
+                  v-for="(entry, idx) in entityList"
+                  :key="idx"
+                  :data="entry"
+                >
+                </entity-card>
+              </div>
+              <div class="button--layout">
+                <!-- <b-button variant="success">Success</b-button>
+                <b-button variant="info">Info</b-button>
+                <b-button variant="warning">Warning</b-button>
+                <b-button variant="primary">Primary</b-button>
+                <b-button variant="danger">Danger</b-button>
+                <b-button variant="link">Link</b-button> -->
+                <button
+                  v-for="(entry) in categoryList"
+                  :key="entry"
+                  :data="entry"
+                  @click="selectCategory(entry)"
+                >
+                {{ entry }}
+                </button>
+              </div>
+            </ui-accordion>
           </div>
 
           <div class="modal-footer">
@@ -38,15 +80,24 @@
 </template>
 
 <script>
+import EntityCard from './EntityCard'
+import UiAccordion from './UI/Accordion'
+
+import categoryList from '@/api/category.json'
+
 export default {
   name: 'ModalComp',
+  components: {
+    EntityCard,
+    UiAccordion
+  },
   props: {
     showModal: {
       type: Boolean,
       defalut: () => false,
       required: true
     },
-    handleModal: {
+    handleCallback: {
       type: Function,
       required: true
     },
@@ -55,10 +106,18 @@ export default {
       default: () => {}
     }
   },
+  data () {
+    return {
+      inputElement: null,
+      entityList: [],
+      categoryList: Object.keys(categoryList.category)
+      // selectedMessage: null
+    }
+  },
   methods: {
     closeModal () {
       // TODO save or cancel
-      this.handleModal()
+      this.handleCallback()
     },
     clickModalWrapper (event) {
       if (this.showModal) {
@@ -66,18 +125,38 @@ export default {
           this.closeModal()
         }
       }
+    },
+    // selectMessage () {
+    //   this.selectedMessage = window.getSelection().toString()
+    // },
+    selectCategory (category) {
+      // console.log('----selectCategory----')
+      // console.log(categoryList.category)
+      // console.log(categoryList.category)
+      const selectedMessage = window.getSelection().toString()
+      if (category && selectedMessage) {
+        this.entityList.push({
+          sentence: selectedMessage,
+          category
+        })
+      }
     }
   },
   computed: {
     bindData () {
       return {
+        'ai_intent': this.data['ai_intent'] || [],
+        'ent_ai': this.data['ent_ai'] || [],
+        'ai_agt': this.data['ai_agt'] || [],
+        'ent_agt': this.data['ent_agt'] || [],
         ...this.data
       }
     }
+  },
+  mounted () {
+    console.log('---mounted---')
+    // console.log(this.bindData)
   }
-  // mounted () {
-  //   console.log('---ModalComp mounted')
-  // }
 }
 </script>
 
@@ -100,8 +179,8 @@ export default {
 }
 
 .modal-container {
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 85%;
   margin: 10px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -141,5 +220,39 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.input__message, select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input__message {
+  width: 100%;
+  background-color: #4CAF50;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card--layout {
+  box-sizing: border-box;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button--layout {
+  box-sizing: border-box;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
