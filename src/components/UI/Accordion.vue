@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    handleDisplay (elem) {
+    handleDisplay (elem, status) {
       elem.classList.toggle('active')
       const panel = elem.nextElementSibling
       // for slide transition
@@ -38,10 +38,19 @@ export default {
       // } else {
       //   panel.style.maxHeight = panel.scrollHeight + 'px'
       // }
-      if (panel.style.display === 'block') {
-        panel.style.display = 'none'
+      // toggle
+      if (!status) {
+        if (panel.style.display === 'block') {
+          panel.style.display = 'none'
+        } else {
+          panel.style.display = 'block'
+        }
       } else {
-        panel.style.display = 'block'
+        if (status) {
+          panel.style.display = 'block'
+        } else {
+          panel.style.display = 'none'
+        }
       }
     }
   },

@@ -19,7 +19,7 @@
 
       <tbody :style="tbodyStyle" id="tableBody">
         <tr
-          v-for="(entry, idx) in filteredData"
+          v-for="(entry, idx) in bindData"
           :key="entry.pk"
           v-on:click="clickMessage(entry, idx)"
         >
@@ -45,7 +45,7 @@
       v-if="showModal"
       :showModal="showModal"
       :handleCallback="handleCallback"
-      :data="selected.data"
+      :data="selectedData"
     ></modal-comp>
   </div>
 </template>
@@ -93,6 +93,7 @@ export default {
       scrollElement: null,
       headerElement: null,
       showModal: false,
+      selectedData: [],
       selected: {
         data: null,
         index: null
@@ -107,26 +108,29 @@ export default {
     }
   },
   computed: {
-    filteredData: function () {
-      var sortKey = this.sortKey
-      var filterKey = this.filterKey && this.filterKey.toLowerCase()
-      var order = this.sortOrders[sortKey] || 1
-      var data = this.data
-      if (filterKey) {
-        data = data.filter(function (row) {
-          return Object.keys(row).some(function (key) {
-            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
-          })
-        })
-      }
-      if (sortKey) {
-        data = data.slice().sort(function (a, b) {
-          a = a[sortKey]
-          b = b[sortKey]
-          return (a === b ? 0 : a > b ? 1 : -1) * order
-        })
-      }
-      return data
+    // filteredData: function () {
+    //   var sortKey = this.sortKey
+    //   var filterKey = this.filterKey && this.filterKey.toLowerCase()
+    //   var order = this.sortOrders[sortKey] || 1
+    //   var data = this.data
+    //   if (filterKey) {
+    //     data = data.filter(function (row) {
+    //       return Object.keys(row).some(function (key) {
+    //         return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+    //       })
+    //     })
+    //   }
+    //   if (sortKey) {
+    //     data = data.slice().sort(function (a, b) {
+    //       a = a[sortKey]
+    //       b = b[sortKey]
+    //       return (a === b ? 0 : a > b ? 1 : -1) * order
+    //     })
+    //   }
+    //   return data
+    // },
+    bindData () {
+      return [ ...this.data ]
     }
   },
   filters: {
@@ -147,25 +151,26 @@ export default {
     //   }
     //   this.showModal = !this.showModal
     // },
-    setSelected (from, to, idx) {
-      this.selected.data = to
+    setSelected (to, idx, isSave) {
+      this.selectedData = to
+      if (isSave) {
+        this.bindData.splice(idx, 1, to)
+      }
       this.selected.index = idx
       this.showModal = !this.showModal
     },
     clickMessage (entry, idx) {
-      this.setSelected(null, entry, idx)
+      this.setSelected(entry, idx)
     },
     handleCallback (entry, isSave) {
       if (isSave) {
         // console.log(`isSave: ${isSave}`)
         // console.log(entry)
-        // TODO
-        // status: true ===> save
-        // check data is change or unchange
-        this.data[this.selected.index] = entry
         // to lock or unlock
+        this.setSelected(entry, this.selected.index, isSave)
+      } else {
+        this.setSelected(null, this.selected.index)
       }
-      this.setSelected(this.selected.data, null, null)
     },
     handleScroll () {
       if (this.scrollElement.scrollTop + this.scrollElement.offsetHeight >= this.scrollElement.scrollHeight) {
@@ -185,6 +190,16 @@ export default {
       this.scrollElement.removeEventListener('scroll', this.handleScroll)
     }
   }
+  // watch: {
+  // data (newVal) {
+  //   console.log('---data---')
+  //   console.log(newVal)
+  // },
+  // bindData (newVal) {
+  //   console.log('---bindData---')
+  //   console.log(newVal)
+  // }
+  // }
 }
 </script>
 
@@ -264,7 +279,7 @@ export default {
       text-align: center;
       width: 19%;
     }
-    .th__row__ai_agent {
+    .th__row__ai_agt {
       text-align: center;
       width: 19%;
     }
@@ -289,7 +304,7 @@ export default {
       text-align: left;
       width: 19%;
     }
-    .td__row__ai_agent {
+    .td__row__ai_agt {
       text-align: left;
       width: 19%;
     }

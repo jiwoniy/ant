@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       isLoadBusy: false,
-      columns: ['pk', 'message', 'ai_intent', 'ai_agent', 'ent_ai', 'ent_ag'],
+      columns: ['pk', 'message', 'ai_intent', 'ai_agt', 'ent_ai', 'ent_ag'],
       gridData: messageJson.results,
       apiCursor: null,
       apiQuery: {}

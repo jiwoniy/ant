@@ -5,9 +5,10 @@
         <div class="modal-container">
 
           <div class="modal-header">
-            <h2> edit
-              <!-- <b-badge>New</b-badge> -->
-            </h2>
+            <h3> Edit
+              <b-badge>checkd</b-badge>
+              <b-badge>review</b-badge>
+            </h3>
              <button @click="toggle">
               toggle
             </button>
@@ -24,12 +25,14 @@
             <ui-accordion
               :sectionTitle="'ai intent'"
             >
-              <intent-card
-                  v-for="(entry, idx) in bindData['ai_intent']"
-                  :key="idx"
-                  :data="entry"
-                >
-              </intent-card>
+              <div class="card--layout">
+                <intent-card
+                    v-for="(entry, idx) in bindData['ai_intent']"
+                    :key="idx"
+                    :data="entry"
+                  >
+                </intent-card>
+              </div>
             </ui-accordion>
 
             <ui-accordion
@@ -50,13 +53,15 @@
             <ui-accordion
               :sectionTitle="'entity ai'"
             >
-              <entity-card
-                v-for="(entry, idx) in bindData['ent_ai']"
-                :key="idx"
-                :data="entry"
-                :getEntityValue="getEntityValue"
-              >
-              </entity-card>
+              <div class="card--layout">
+                <entity-card
+                  v-for="(entry, idx) in bindData['ent_ai']"
+                  :key="idx"
+                  :data="entry"
+                  :getEntityValue="getEntityValue"
+                >
+                </entity-card>
+              </div>
             </ui-accordion>
 
             <ui-accordion
@@ -87,9 +92,9 @@
           </div>
 
           <div class="modal-footer">
-            <b-button-group>
-              <b-button @click.stop="closeModal"> OK </b-button>
-              <b-button @click.stop="closeModal"> Cancel </b-button>
+            <b-button-group @click.stop="closeModal">
+              <b-button> OK </b-button>
+              <b-button> Cancel </b-button>
             </b-button-group>
           </div>
 
@@ -100,6 +105,9 @@
 </template>
 
 <script>
+import _isEqualWith from 'lodash.isequalwith'
+import _isEqual from 'lodash.isequal'
+
 import EntityCard from './EntityCard'
 import IntentCard from './IntentCard'
 import AddList from './AddList'
@@ -137,7 +145,6 @@ export default {
       entityList: [],
       categoryList: Object.keys(categoryList.category),
       getEntityValue: (data, name) => data[name]
-      // selectedMessage: null
     }
   },
   methods: {
@@ -147,20 +154,36 @@ export default {
         accordionChildren[i].handleDisplay(accordionChildren[i].accordionElem[0])
       }
     },
-    closeModal () {
-      // TODO save or cancel
-      this.handleCallback()
+    closeModal (event) {
+      let userWantSave = false
+      if (event) {
+        if (event.target.textContent.indexOf('OK') > -1) {
+          userWantSave = true
+        }
+      }
+
+      const isUpdated = _isEqualWith(this.data, this.bindData, this.isUpdated)
+      let isSave = false
+      if (isUpdated && userWantSave) {
+        // no problem save
+        isSave = true
+      } else if (isUpdated && !userWantSave) {
+        const userConfirm = confirm('변경된 내용')
+        isSave = userConfirm
+      } else if (!isUpdated && userWantSave) {
+        alert('변경된 내용이 없습니다.')
+      }
+
+      this.handleCallback(this.bindData, isSave)
     },
     clickModalWrapper (event) {
       if (this.showModal) {
         if (event.target.className === 'modal-wrapper') {
+          // TODO alert!!!
           this.closeModal()
         }
       }
     },
-    // selectMessage () {
-    //   this.selectedMessage = window.getSelection().toString()
-    // },
     selectEntityCategory (category) {
       const selectedMessage = window.getSelection().toString()
       if (category && selectedMessage) {
@@ -171,10 +194,26 @@ export default {
       }
     },
     updateTwowayBinding (computedParentData) {
-      // console.log('--updateTwowayBinding--')
-      // console.log(computedParentData)
-      this.entityList = computedParentData['ent_agt']
+      this.entityList = computedParentData['ent_ag']
       this.intentList = computedParentData['ai_agt']
+    },
+    isUpdated (origin, update) {
+      // compare only "ai_agt", "ent_agt"
+      const updated = Object.keys(update)
+
+      const isUpdate = updated.some((org) => {
+        if (org === 'ai_agt' || org === 'ent_ag') {
+          if (update[org] === null || update[org].length === 0) {
+            return false
+          } else {
+            return !_isEqual(origin[org], update[org])
+          }
+        }
+        return false
+      })
+
+      // console.log(`isUpdate: ${isUpdate}`)
+      return isUpdate
     }
   },
   computed: {
@@ -183,13 +222,13 @@ export default {
         'ai_intent': this.data['ai_intent'] || [],
         'ent_ai': this.data['ent_ai'] || [],
         'ai_agt': this.data['ai_agt'] || [],
-        'ent_agt': this.data['ent_agt'] || [],
-        ...this.data
+        'ent_ag': this.data['ent_ag'] || [],
+        'pk': this.data.pk,
+        'message': this.data.message
       }
     }
   },
   mounted () {
-    // console.log('---mounted---')
     this.updateTwowayBinding(this.bindData)
   }
 }
@@ -215,25 +254,29 @@ export default {
 
 .modal-container {
   width: 90%;
-  height: 85%;
-  margin: 10px auto;
-  padding: 20px 30px;
+  height: 90%;
+  margin: 2% auto;
+  padding: 2%;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  overflow-y: auto;
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.modal-header {
+  margin: 5px;
 }
 
 .modal-body {
+  /* height: calc(100% - 120px); */
   padding: 10px auto;
 }
 
+.modal-footer {
+  margin: 5px;
+}
 /*
  * The following styles are auto-applied to elements with
  * transition="modal" when their visibility is toggled
@@ -269,7 +312,6 @@ export default {
 
 .input__message {
   width: 100%;
-  background-color: #4CAF50;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;

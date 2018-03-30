@@ -1,12 +1,18 @@
 <template>
   <div>
     <div class="header">
-      <input
-        type="text"
-        placeholder="insert..."
-        v-model="inputText"
-      >
-      <span @click="addRow" class="addBtn">Add</span>
+      <div class="add">
+        <input
+          type="text"
+          placeholder="insert..."
+          v-model="inputText"
+        />
+        <span
+          @click="addRow"
+          class="addBtn">
+          Add
+        </span>
+      </div>
     </div>
 
     <ul
@@ -59,7 +65,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   ul {
   margin: 0;
   padding: 0;
@@ -125,13 +131,40 @@ ul li.checked::before {
   color: white;
 }
 
-/* Style the header */
 .header {
+  width: 100%;
   padding: 10px;
   background-color: #5597b4;
-  opacity: 0.5;
-  /* color: #5597b4; */
+  opacity: 0.8;
   text-align: center;
+   .add {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  input {
+    border: none;
+    width: 80%;
+    padding: 10px;
+    float: left;
+    font-size: 16px;
+  }
+
+  .addBtn {
+    padding: 10px;
+    width: 20%;
+    background: #d9d9d9;
+    color: #555;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .addBtn:hover {
+    background-color: #bbb;
+  }
 }
 
 /* Clear floats after the header */
@@ -139,31 +172,5 @@ ul li.checked::before {
   content: "";
   display: table;
   clear: both;
-}
-
-/* Style the input */
-input {
-  border: none;
-  width: 75%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-}
-
-/* Style the "Add" button */
-.addBtn {
-  padding: 10px;
-  width: 25%;
-  background: #d9d9d9;
-  color: #555;
-  float: left;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.addBtn:hover {
-  background-color: #bbb;
 }
 </style>
