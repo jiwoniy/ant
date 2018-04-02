@@ -29,7 +29,7 @@
 // https://css-tricks.com/drag-and-drop-file-uploading/
 // https://github.com/SheetJS/js-xlsx
 // import XLSX from 'xlsx'
-import { fileUpload } from '@/api'
+import { fileUpload } from '@/api/ant'
 
 export default {
   name: 'ExcelImport',

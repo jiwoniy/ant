@@ -9,7 +9,7 @@
 import Vue from 'vue'
 import store from '@/store'
 
-import { auth } from '@/api'
+import { auth } from '@/api/ant'
 
 export default {
   CHECK: ({ commit }) => {

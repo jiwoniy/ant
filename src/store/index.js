@@ -13,6 +13,7 @@ import createLogger from 'vuex/dist/logger'
 
 // Modules
 import auth from './modules/auth'
+import messages from './modules/messages'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
    * Assign the modules to the store.
    */
   modules: {
-    auth
+    auth,
+    messages
   },
 
   /**

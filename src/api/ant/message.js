@@ -4,9 +4,8 @@ import memoizeInstance from '@/utils/memoize'
 // import generateQueryParam from '@/utils/generateQueryParam';
 // import typeCheckApi from './typeCheckApi';
 
-const baseUrl = ''
+const baseUrl = 'ant'
 const path = {
-  // // dashboard
   getMessage (params = {}) {
     return Axios.get(`${baseUrl}/message`, { params })
   }

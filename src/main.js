@@ -14,7 +14,7 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-// store.dispatch('auth/CHECK')
+store.dispatch('auth/CHECK')
 
 /* eslint-disable no-new */
 new Vue({

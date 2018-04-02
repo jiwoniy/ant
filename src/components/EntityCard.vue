@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import categoryList from '@/api/category.json'
+import categoryList from '@/api/ant/category.json'
 
 export default {
   name: 'EntityCard',

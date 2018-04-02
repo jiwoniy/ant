@@ -113,7 +113,7 @@ import IntentCard from './IntentCard'
 import AddList from './AddList'
 import UiAccordion from './UI/Accordion'
 
-import categoryList from '@/api/category.json'
+import categoryList from '@/api/ant/category.json'
 
 export default {
   name: 'ModalComp',

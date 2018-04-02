@@ -1,3 +1,3 @@
 export default {
-  BASEURL: 'http://55bf2677.ngrok.io'
+  BASEURL: 'https://flanb-test.travelflan.com'
 }

@@ -1,9 +1,3 @@
-import auth from './auth'
-import message from './message'
-import fileUpload from './fileUpload'
+import ant from './ant'
 
-export {
-  auth,
-  message,
-  fileUpload
-}
+export default ant
