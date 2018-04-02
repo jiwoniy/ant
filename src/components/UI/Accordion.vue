@@ -38,9 +38,10 @@ export default {
       // } else {
       //   panel.style.maxHeight = panel.scrollHeight + 'px'
       // }
-      // toggle
       if (!status) {
-        if (panel.style.display === 'block') {
+        if (!panel.style.display) {
+          panel.style.display = 'block'
+        } else if (panel.style.display === 'block') {
           panel.style.display = 'none'
         } else {
           panel.style.display = 'block'

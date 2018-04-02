@@ -4,7 +4,7 @@
 
       <thead id="tableHead">
         <tr>
-          <td
+          <th
             v-for="key in columns"
             :key="key"
             @click="sortBy(key)"
@@ -13,11 +13,14 @@
             {{ key }}
             <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
             </span>
-          </td>
+          </th>
         </tr>
       </thead>
 
-      <tbody :style="tbodyStyle" id="tableBody">
+      <tbody
+        :style="tbodyStyle"
+        id="tableBody"
+      >
         <tr
           v-for="(entry, idx) in bindData"
           :key="entry.pk"
@@ -28,7 +31,10 @@
             :key="key"
             :class="`td__row__${key}`"
           >
-            {{ entry[key] }}
+            <table-content
+              :data="entry[key]"
+            >
+              </table-content>
           </td>
           <!-- <edit-table
             v-if="selected.data ? selected.data.pk === entry.pk : false"
@@ -54,14 +60,16 @@
 import _throttle from 'lodash.throttle'
 import ModalComp from '@/components/ModalComp'
 import Spinner from '@/components/UI/Spinner'
-// import EditTable from '@/components/EditTable'
+import TableContent from '@/components/UI/TableContent'
+// import ToolTip from '@/components/UI/ToolTip'
 
 export default {
   name: 'GridTable',
   components: {
     ModalComp,
-    Spinner
-    // EditTable
+    Spinner,
+    TableContent
+    // ToolTip
   },
   props: {
     data: {
@@ -143,6 +151,10 @@ export default {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
+    // contentsHover (entry, index) {
+    //   console.log('---contentsHover---')
+    //   console.log(entry)
+    // },
     // handleModal (entry) {
     //   if (entry) {
     //     this.selectedData = entry
@@ -224,26 +236,39 @@ export default {
       display: block;
       width: 100%;
       cursor: pointer;
+      table-layout: fixed;
+      border: 0.2px solid #5597b4;
+      border-collapse: collapse;
+      padding: 5px;
     }
 
-    th, td {
+    td {
       display: inline-block;
-      height: var(--thead-height);
-      line-height: var(--thead-height);
-      padding: 0px 10px;
+      // height: var(--thead-height);
+      // line-height: var(--thead-height);
+      // padding: 0px 10px;
       // vertical-align: middle;
 
-      table-layout: fixed;
-      white-space: nowrap;
+      // table-layout: fixed;
+      // white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      border: 0.2px solid #5597b4;
 
-      font-size: 12px;
+      // font-size: 12px;
     }
 
     thead {
       th {
+        display: inline-block;
+        height: var(--thead-height);
+        line-height: var(--thead-height);
+
+        table-layout: fixed;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        font-size: 12px;
         text-align: center;
       }
 
@@ -265,6 +290,9 @@ export default {
       tr:nth-child(odd) {
         background: #eee;
       }
+      // tr:hover {
+      //   background: black;
+      // }
     }
 
     .th__row__pk {
