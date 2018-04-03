@@ -12,6 +12,8 @@ const path = {
 }
 
 const wrapperPath = {}
+
+memoizeInstance.setMemoizeFunction(['fetchMessages'])
 Object.keys(path).forEach((methodName) => {
   wrapperPath[methodName] = memoizeInstance.memoize(path[methodName])
 })

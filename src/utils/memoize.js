@@ -5,16 +5,26 @@ import moment from 'moment'
 const Singleton = (() => {
   let instance
   let compareDiff = 60000
+  let cacheMethodList = []
   const cache = {}
 
   function setDiff (diffTime) {
     compareDiff = diffTime
   }
 
+  function setMemoizeFunction (arg) {
+    cacheMethodList.push(...arg)
+  }
+
   const memoize = fn => (...args) => {
     if (!fn.name) {
       // eslint-disable-next-line no-console
       console.log('! please make function name')
+      return fn(...args)
+    }
+
+    if (!cacheMethodList.some(method => method === fn.name)) {
+      return fn(...args)
     }
 
     // make hash
@@ -22,6 +32,7 @@ const Singleton = (() => {
       ...args,
       fun: fn.name
     })
+
     if (cache[hashKey]) {
       const current = moment()
       // eslint-disable-next-line no-console
@@ -45,7 +56,8 @@ const Singleton = (() => {
   function createInstance () {
     const object = {
       memoize,
-      setDiff
+      setDiff,
+      setMemoizeFunction
     }
 
     return object
