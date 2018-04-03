@@ -5,123 +5,106 @@
     "pk": 493,
     "message": "邊到未",
     "ai_intent": null,
-    "ai_agent": [],
-    "ent_ai": null,
-    "ent_ag": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 492,
-    "message": "LANG_zh_CN",
+    "pk": 494,
+    "message": "test 1",
     "ai_intent": null,
-    "ai_agent": [],
-    "ent_ai": null,
-    "ent_ag": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 491,
-    "message": "USER_DEFINED_PAYLOAD",
+    "pk": 495,
+    "message": "test 2",
     "ai_intent": null,
-    "ai_agent": [],
-    "ent_ai": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 490,
-    "message": "暫時未有，感謝",
+    "pk": 496,
+    "message": "test 3",
     "ai_intent": null,
-    "ai_agent": [],
-    "ent_ai": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 489,
-    "message": "intent: signup, first_name: Daniel, last_name: Lam, gender: male, country: HK",
-    "ai_intent": [],
-    "ai_agent": [],
-    "ent_ai": []
-  }, {
-    "pk": 488,
-    "message": "LANG_zh_HK",
+    "pk": 497,
+    "message": "test 4",
     "ai_intent": null,
-    "ent_ai": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 487,
-    "message": "USER_DEFINED_PAYLOAD",
+    "pk": 498,
+    "message": "test 5",
     "ai_intent": null,
-    "ent_ai": null
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 486,
-    "message": "WHVT3",
-    "ai_intent": [],
-    "ent_ai": [{
+    "pk": 499,
+    "message": "test 6",
+    "ai_intent": null,
+    "ai_entity": [],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
+  }, {
+    "pk": 500,
+    "message": "test 7",
+    "ai_intent": null,
+    "ai_entity": [{
       "raw": "WHVT3",
       "name": "promo_code",
       "value": "whvt3",
       "location": [0, 5]
-    }]
+    }],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 485,
-    "message": "HWVT3",
-    "ai_intent": [],
-    "ent_ai": []
-  }, {
-    "pk": 484,
-    "message": "輸入代碼",
-    "ai_intent": ["promotion"],
-    "ent_ai": []
-  }, {
-    "pk": 483,
-    "message": "intent: signup, first_name: MarsKiko, last_name: Chan, gender: female, birthdate: 1986-01-29, country: HK",
-    "ai_intent": [],
-    "ent_ai": []
-  }, {
-    "pk": 482,
-    "message": "LANG_zh_HK",
+    "pk": 501,
+    "message": "test 8",
     "ai_intent": null,
-    "ent_ai": null
-  }, {
-    "pk": 481,
-    "message": "USER_DEFINED_PAYLOAD",
-    "ai_intent": null,
-    "ent_ai": null
-  }, {
-    "pk": 480,
-    "message": "SLPS18",
-    "ai_intent": [ "test1", "test2", "test3"],
-    "ent_ai": [{
-      "raw": "SLPS18",
+    "ai_entity": [{
+      "raw": "WHVT3",
       "name": "promo_code",
-      "value": "slps18",
-      "location": [0, 6]
-    }]
+      "value": "whvt3",
+      "location": [0, 5]
+    }],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }, {
-    "pk": 479,
-    "message": "輸入代碼",
+    "pk": 502,
+    "message": "test 9",
     "ai_intent": ["promotion"],
-    "ent_ai": []
-  }, {
-    "pk": 478,
-    "message": "intent: signup, first_name: Wing, last_name: Choi, gender: male, birthdate: 1991-08-09, country: MO",
-    "ai_intent": [],
-    "ent_ai": []
-  }, {
-    "pk": 477,
-    "message": "LANG_zh_HK",
-    "ai_intent": null,
-    "ent_ai": null
-  }, {
-    "pk": 476,
-    "message": "Yes",
-    "ai_intent": null,
-    "ent_ai": null
-  }, {
-    "pk": 475,
-    "message": "SLPS18",
-    "ai_intent": [],
-    "ent_ai": [{
-      "raw": "SLPS18",
+    "ai_entity": [{
+      "raw": "WHVT3",
       "name": "promo_code",
-      "value": "slps18",
-      "location": [0, 6]
-    }]
-  }, {
-    "pk": 474,
-    "message": "輸入代碼",
-    "ai_intent": ["promotion"],
-    "ent_ai": []
+      "value": "whvt3",
+      "location": [0, 5]
+    }],
+    "intent": null,
+    "entity": null,
+    "check_status": "not_check",
+    "skip": false
   }]
 }

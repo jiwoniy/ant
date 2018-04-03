@@ -42,7 +42,7 @@ export default {
   },
   props: {
     data: {
-      type: [String, Number, Object, Array],
+      type: [String, Number, Object, Array, Boolean],
       default: () => {}
     }
   },

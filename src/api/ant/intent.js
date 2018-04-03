@@ -12,14 +12,14 @@ const path = {
   postIntent (params = {}) {
     return Axios.post(`${baseUrl}/intent`, { params })
   },
-  putIntent (params = {}) {
-    return Axios.put(`${baseUrl}/intent`, { params })
+  putIntent (messageId, params = {}) {
+    return Axios.put(`${baseUrl}/intent/${messageId}`, { params })
   },
-  patchIntent (params = {}) {
-    return Axios.patch(`${baseUrl}/intent`, { params })
+  patchIntent (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/intent/${messageId}`, { params })
   },
-  deleteIntent (params = {}) {
-    return Axios.patch(`${baseUrl}/intent`, { params })
+  deleteIntent (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/intent/${messageId}`, { params })
   }
 }
 

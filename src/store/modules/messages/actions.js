@@ -25,5 +25,12 @@ export default {
       .catch(error => {
         return handleError(error)
       })
+  },
+  updateMessage: ({ commit, state }, payload) => {
+    // console.log('message actions.js')
+    // const { data, changedProps } = payload
+
+    // changedProps.forEach
+    // console.log(data)
   }
 }

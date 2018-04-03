@@ -90,6 +90,10 @@ export default {
     isLoadBusy: {
       type: Boolean,
       default: () => false
+    },
+    updateData: {
+      type: Function,
+      default: () => {}
     }
   },
   data: function () {
@@ -174,12 +178,12 @@ export default {
     clickMessage (entry, idx) {
       this.setSelected(entry, idx)
     },
-    handleCallback (entry, isSave) {
+    handleCallback (entry, isSave, originData) {
       if (isSave) {
-        // console.log(`isSave: ${isSave}`)
         // console.log(entry)
         // to lock or unlock
         this.setSelected(entry, this.selected.index, isSave)
+        this.updateData(entry, originData)
       } else {
         this.setSelected(null, this.selected.index)
       }
@@ -202,16 +206,6 @@ export default {
       this.scrollElement.removeEventListener('scroll', this.handleScroll)
     }
   }
-  // watch: {
-  // data (newVal) {
-  //   console.log('---data---')
-  //   console.log(newVal)
-  // },
-  // bindData (newVal) {
-  //   console.log('---bindData---')
-  //   console.log(newVal)
-  // }
-  // }
 }
 </script>
 
@@ -301,23 +295,31 @@ export default {
     }
     .th__row__message {
       text-align: center;
-      width: 19%;
+      width: 17%;
     }
     .th__row__ai_intent {
       text-align: center;
-      width: 19%;
+      width: 17%;
     }
-    .th__row__ai_agt {
+    .th__row__ai_entity {
       text-align: center;
-      width: 19%;
+      width: 17%;
     }
-    .th__row__ent_ai {
+    .th__row__entity {
       text-align: center;
-      width: 19%;
+      width: 17%;
     }
-    .th__row__ent_ag {
+    .th__row__intent {
       text-align: center;
-      width: 19%;
+      width: 17%;
+    }
+    .th__row__check_status {
+      text-align: center;
+      width: 5%;
+    }
+    .th__row__skip {
+      text-align: center;
+      width: 5%;
     }
 
     .td__row__pk {
@@ -326,23 +328,31 @@ export default {
     }
     .td__row__message {
       text-align: left;
-      width: 19%;
+      width: 17%;
     }
     .td__row__ai_intent {
       text-align: left;
-      width: 19%;
+      width: 17%;
     }
-    .td__row__ai_agt {
+    .td__row__ai_entity {
       text-align: left;
-      width: 19%;
+      width: 17%;
     }
-    .td__row__ent_ai {
+    .td__row__entity {
       text-align: left;
-      width: 19%;
+      width: 17%;
     }
-    .td__row__ent_ag {
+    .td__row__intent {
       text-align: left;
-      width: 19%;
+      width: 17%;
+    }
+    .td__row__check_status {
+      text-align: center;
+      width: 5%;
+    }
+    .td__row__skip {
+      text-align: center;
+      width: 5%;
     }
   }
 

@@ -164,17 +164,23 @@ export default {
 
       const isUpdated = _isEqualWith(this.data, this.bindData, this.isUpdated)
       let isSave = false
+      let isCancel = false
       if (isUpdated && userWantSave) {
         // no problem save
         isSave = true
       } else if (isUpdated && !userWantSave) {
-        const userConfirm = confirm('변경된 내용')
-        isSave = userConfirm
+        const userConfirm = confirm('변경된 내용이 있습니다. 취소하시겠습니까?')
+        if (!userConfirm) {
+          isCancel = true
+        }
+        isSave = !userConfirm
       } else if (!isUpdated && userWantSave) {
         alert('변경된 내용이 없습니다.')
       }
 
-      this.handleCallback(this.bindData, isSave)
+      if (!isCancel) {
+        this.handleCallback(this.bindData, isSave, this.data)
+      }
     },
     clickModalWrapper (event) {
       if (this.showModal) {
@@ -194,15 +200,15 @@ export default {
       }
     },
     updateTwowayBinding (computedParentData) {
-      this.entityList = computedParentData['ent_ag']
-      this.intentList = computedParentData['ai_agt']
+      this.entityList = computedParentData['ent_agent']
+      this.intentList = computedParentData['ai_agent']
     },
     isUpdated (origin, update) {
-      // compare only "ai_agt", "ent_agt"
+      // compare only "ai_agent", "ent_agent"
       const updated = Object.keys(update)
 
       const isUpdate = updated.some((org) => {
-        if (org === 'ai_agt' || org === 'ent_ag') {
+        if (org === 'ai_agent' || org === 'ent_agent') {
           if (update[org] === null || update[org].length === 0) {
             return false
           } else {
@@ -218,11 +224,12 @@ export default {
   },
   computed: {
     bindData () {
+      // ['pk', 'message', 'ai_intent', 'intent', 'ai_entity', 'entity', 'check_status', 'skip'],
       return {
         'ai_intent': this.data['ai_intent'] || [],
-        'ent_ai': this.data['ent_ai'] || [],
-        'ai_agt': this.data['ai_agt'] || [],
-        'ent_ag': this.data['ent_ag'] || [],
+        'ai_entity': this.data['ai_entity'] || [],
+        'intent': this.data['intent'] || [],
+        'entity': this.data['entity'] || [],
         'pk': this.data.pk,
         'message': this.data.message
       }

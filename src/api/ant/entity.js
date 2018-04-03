@@ -12,18 +12,21 @@ const path = {
   postEntity (params = {}) {
     return Axios.post(`${baseUrl}/entity`, { params })
   },
-  putEntity (params = {}) {
-    return Axios.put(`${baseUrl}/entity`, { params })
+  putEntity (messageId, params = {}) {
+    return Axios.put(`${baseUrl}/entity/${messageId}`, { params })
   },
-  patchEntity (params = {}) {
-    return Axios.patch(`${baseUrl}/entity`, { params })
+  patchEntity (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/entity/${messageId}`, { params })
   },
-  deleteEntity (params = {}) {
-    return Axios.patch(`${baseUrl}/entity`, { params })
+  deleteEntity (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/entity/${messageId}`, { params })
+  },
+  fetchEntityCategory (params = {}) {
+    return Axios.get(`${baseUrl}/entity/category`, { params })
   }
 }
 
-memoizeInstance.setMemoizeFunction(['fetchEntity'])
+memoizeInstance.setMemoizeFunction(['fetchEntity', 'fetchEntityCategory'])
 const wrapperPath = {}
 Object.keys(path).forEach((methodName) => {
   wrapperPath[methodName] = memoizeInstance.memoize(path[methodName])
