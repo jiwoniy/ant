@@ -25,7 +25,7 @@ export default {
     return {
       isLoadBusy: false,
       columns: ['pk', 'message', 'ai_intent', 'ai_agt', 'ent_ai', 'ent_ag'],
-      // gridData: this.getMessagesFromVuex(),
+      // gridData: this.getMessages(),
       gridData: messageJson.results,
       apiCursor: null,
       apiQuery: {}
@@ -33,13 +33,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      getMessagesFromApi: 'messages/getMessages'
+      fetchMessages: 'messages/fetchMessages'
     }),
     ...mapGetters({
-      getMessagesFromVuex: 'messages/MESSAGES'
+      getMessages: 'messages/MESSAGES'
     }),
     async loadMore () {
-      const result = await this.getMessagesFromApi()
+      const result = await this.fetchMessages()
       console.log(result)
       this.isLoadBusy = false
     }

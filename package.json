@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "unit": "jest --config test/unit/jest.conf.js --coverage",
+    "unit": "jest --config test/unit/jest.conf.js --watchAll",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
@@ -25,6 +25,7 @@
     "vue": "^2.5.2",
     "vue-mq": "^0.1.2",
     "vue-router": "^3.0.1",
+    "vue-test-utils": "^1.0.0-beta.11",
     "vuex": "^3.0.1",
     "xlsx": "^0.12.6"
   },

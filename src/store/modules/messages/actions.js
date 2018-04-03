@@ -10,9 +10,10 @@
 // import store from '@/store'
 
 import { message } from '@/api/ant'
+import handleError from '@/utils/handleError'
 
 export default {
-  getMessages: ({ commit, state }) => {
+  fetchMessages: ({ commit, state }) => {
     let apiQuery = {}
     if (state.apiCursor) {
       const queryString = state.apiCursor.split('?')[1]
@@ -24,35 +25,16 @@ export default {
       })
     }
 
-    return message.getMessage({ cursor: apiQuery.cursor })
+    return message.fetchMessages({ cursor: apiQuery.cursor })
       .then(response => {
         const { data } = response
         const { next, results } = data
         commit('SET_MESSAGE_API_CURSOR', next)
-        commit('SET_MESSAGE', results)
-        return 'success'
+        commit('ADD_MESSAGE_BULK', results)
+        return true
       })
       .catch(error => {
-        console.log('message getMessage error')
-        console.log(error)
-        return 'error'
+        return handleError(error)
       })
-
-    // return setTimeout(() => {
-    //   for (var i = 0, j = 20; i < j; i++) {
-    //     commit('SET_MESSAGE', {
-    //       pk: state.messages.length + 2,
-    //       message: 'Jackie Chan'
-    //     })
-    //   }
-    // }, 3000)
-
-    // if (result) {
-    //   return true
-    // }
-
-    // return false
-
-    // return true
   }
 }

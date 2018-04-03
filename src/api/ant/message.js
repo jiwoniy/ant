@@ -6,7 +6,7 @@ import memoizeInstance from '@/utils/memoize'
 
 const baseUrl = 'ant'
 const path = {
-  getMessage (params = {}) {
+  fetchMessages (params = {}) {
     return Axios.get(`${baseUrl}/message`, { params })
   }
 }
