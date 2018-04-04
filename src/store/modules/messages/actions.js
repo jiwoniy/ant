@@ -50,10 +50,59 @@ export default {
     const { originData, updatedData } = payload
     // console.log(originData)
     // console.log(updatedData)
-    // TODO classify post, put, patch
-    const results = classifyRestfulMethod(originData, updatedData)
-    console.log(results)
+    const messageId = updatedData.pk || originData.pk
+    const updatedDataList = classifyRestfulMethod(originData, updatedData)
 
+    const flatData = []
+    updatedDataList.forEach((datas, idx) => {
+      datas.forEach((data, idx) => {
+        flatData.push({
+          ...data,
+          messageId
+        })
+      })
+    })
+    // console.log(flatData)
     // commit('UPDATE_MESSAGE', updatedData)
+    const intentList = []
+    const entityList = []
+    flatData.forEach(data => {
+      if (data.key === 'intent') {
+        intentList.push(data)
+      } else if (data.key === 'entity') {
+        entityList.push(data)
+      }
+    })
+
+    const intentPostList = intentList
+      .filter(intent => intent.method === 'post')
+      .map(intent => intent)
+
+    const intentPathcList = intentList
+      .filter(intent => intent.method === 'patch')
+      .map(intent => intent)
+
+    const intentDeletecList = intentList
+      .filter(intent => intent.method === 'delete')
+      .map(intent => intent)
+
+    const entityPostList = entityList
+      .filter(intent => intent.method === 'post')
+      .map(intent => intent)
+
+    const entityPathcList = entityList
+      .filter(intent => intent.method === 'patch')
+      .map(intent => intent)
+
+    const entityDeletecList = entityList
+      .filter(intent => intent.method === 'delete')
+      .map(intent => intent)
+
+    console.log(intentPostList)
+    console.log(intentPathcList)
+    console.log(intentDeletecList)
+    console.log(entityPostList)
+    console.log(entityPathcList)
+    console.log(entityDeletecList)
   }
 }

@@ -40,7 +40,6 @@ const isEqual = (origin, update) => {
     return false
   } else {
     if (isArray(update) || isArray(origin)) {
-      console.log(`isEqualarray: ${isEqualArray(origin, update)}`)
       return isEqualArray(origin, update)
     } else {
       return _isEqual(origin, update)
