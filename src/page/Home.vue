@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import _isEqual from 'lodash.isequal'
+// import _isEqual from 'lodash.isequal'
 import { mapActions, mapGetters } from 'vuex'
 // import _isEqual from 'lodash.isequal'
 
@@ -28,7 +28,6 @@ export default {
       isLoadBusy: false,
       columns: ['pk', 'message', 'ai_intent', 'intent', 'ai_entity', 'entity', 'check_status', 'skip'],
       gridData: this.getMessages(),
-      // gridData: messageJson.results,
       apiCursor: null,
       apiQuery: {}
     }
@@ -50,29 +49,29 @@ export default {
       this.isLoadBusy = false
     },
     updateData (updatedData, originData) {
-      const changedProps = this.checkChangeProps(updatedData, originData)
-      this.updateMessage({ originData, updatedData, changedProps })
-    },
-    checkChangeProps (updatedData, originData) {
-      const updatedKeys = Object.keys(updatedData)
-        .filter(key => key === 'entity' || key === 'intent')
-
-      const updatedProps = []
-      updatedKeys.forEach((key) => {
-        if (updatedData[key].length) {
-          if (!_isEqual(originData[key], updatedData[key])) {
-            updatedProps.push(key)
-          }
-        } else {
-          if (originData[key] && originData[key].length) {
-            if (!_isEqual(originData[key], updatedData[key])) {
-              updatedProps.push(key)
-            }
-          }
-        }
-      })
-      return updatedProps
+      // const changedProps = this.checkChangeProps(updatedData, originData)
+      this.updateMessage({ originData, updatedData })
     }
+    // checkChangeProps (updatedData, originData) {
+    //   const updatedKeys = Object.keys(updatedData)
+    //     .filter(key => key === 'entity' || key === 'intent')
+
+    //   const updatedProps = []
+    //   updatedKeys.forEach((key) => {
+    //     if (updatedData[key].length) {
+    //       if (!_isEqual(originData[key], updatedData[key])) {
+    //         updatedProps.push(key)
+    //       }
+    //     } else {
+    //       if (originData[key] && originData[key].length) {
+    //         if (!_isEqual(originData[key], updatedData[key])) {
+    //           updatedProps.push(key)
+    //         }
+    //       }
+    //     }
+    //   })
+    //   return updatedProps
+    // }
   },
   mounted () {
     this.loadMore()

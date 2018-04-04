@@ -2,7 +2,11 @@
   <div class="card">
     <!-- <img src="img_avatar.png" alt="Avatar"> -->
     <header class="card__container header">
-      <h3>{{ data }}</h3>
+      <button
+        v-if="deleteIntent"
+        @click="clickDelete"> delete
+      </button>
+      <h3>{{ data.text }}</h3>
     </header>
   </div>
 </template>
@@ -14,6 +18,15 @@ export default {
     data: {
       type: [String, Object],
       default: () => {}
+    },
+    deleteIntent: {
+      type: Function,
+      default: null
+    }
+  },
+  methods: {
+    clickDelete () {
+      this.deleteIntent(this.data)
     }
   }
 }

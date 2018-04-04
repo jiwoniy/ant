@@ -36,18 +36,19 @@
             </ui-accordion>
 
             <ui-accordion
-              :sectionTitle="'ai agent'"
+              :sectionTitle="'intent agent'"
             >
               <intent-card
                 v-for="(entry, idx) in intentList"
                 :key="idx"
                 :data="entry"
+                :deleteIntent="deleteIntent"
               >
               </intent-card>
-              <add-list
+              <add-intent
                 :data="intentList"
               >
-                </add-list>
+              </add-intent>
             </ui-accordion>
 
             <ui-accordion
@@ -107,15 +108,17 @@
 
 <script>
 import hash from 'object-hash'
-import _isEqualWith from 'lodash.isequalwith'
-import _isEqual from 'lodash.isequal'
+// import _isObject from 'lodash.isobject'
+// import _isEqualWith from 'lodash.isequalwith'
+// import _isEqual from 'lodash.isequal'
 import _cloneDeep from 'lodash.clonedeep'
 
 import EntityCard from './EntityCard'
 import IntentCard from './IntentCard'
-import AddList from './AddList'
+import AddIntent from './AddIntent'
 import UiAccordion from './UI/Accordion'
 
+import isUpdate from '@/utils/isUpdate'
 import categoryList from '@/api/ant/category.json'
 
 export default {
@@ -123,7 +126,7 @@ export default {
   components: {
     EntityCard,
     IntentCard,
-    AddList,
+    AddIntent,
     UiAccordion
   },
   props: {
@@ -167,7 +170,7 @@ export default {
         }
       }
 
-      const isUpdated = _isEqualWith(this.data, this.bindData, this.isUpdated)
+      const isUpdated = isUpdate(this.data, this.bindData)
       let isSave = false
       let isCancel = false
       if (isUpdated && userWantSave) {
@@ -200,10 +203,10 @@ export default {
       const isRightSentence = this.checkIsSelectedMessage(selectedMessage, this.data.message)
       if (category && isRightSentence) {
         this.entityList.push({
-          entityId: hash({
+          id: hash({
             selectedMessage,
             category,
-            randome: Math.random()
+            random: Math.random()
           }),
           sentence: selectedMessage,
           category
@@ -220,25 +223,21 @@ export default {
       this.entityList = computedParentData['entity']
       this.intentList = computedParentData['intent']
     },
-    isUpdated (origin, update) {
-      // compare only "ai_agent", "ent_agent"
-      const updatedKeys = Object.keys(update)
-        .filter(key => key === 'entity' || key === 'intent')
-
-      const isUpdate = updatedKeys.some((key) => {
-        if (update[key].length) {
-          return !_isEqual(origin[key], update[key])
-        }
-        return !_isEqual(origin[key], null)
-      })
-
-      return isUpdate
-    },
     deleteEntity (entity) {
-      const uniqueId = entity.entityId || entity.pk
-      const deleteIndex = this.entityList.findIndex(ent => ent.entityId === uniqueId)
-      console.log(`deleteIndex: ${deleteIndex}`)
-      this.entityList.splice(deleteIndex, 1)
+      const uniqueId = entity.id
+      const deleteIndex = this.entityList.findIndex(ent => ent.id === uniqueId)
+      // console.log(`deleteIndex: ${deleteIndex}`)
+      if (deleteIndex > -1) {
+        this.entityList.splice(deleteIndex, 1)
+      }
+    },
+    deleteIntent (intent) {
+      const uniqueId = intent.id
+      const deleteIndex = this.intentList.findIndex(int => int.id === uniqueId)
+      // console.log(`deleteIndex: ${deleteIndex}`)
+      if (deleteIndex > -1) {
+        this.intentList.splice(deleteIndex, 1)
+      }
     }
   },
   computed: {

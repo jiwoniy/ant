@@ -1,9 +1,9 @@
 import hash from 'object-hash'
-import _isObject from 'lodash.isobject'
-import _isEmpty from 'lodash.isempty'
+// import _isObject from 'lodash.isobject'
+// import _isEmpty from 'lodash.isempty'
 // import { message } from '@/api/ant'
 import handleError from '@/utils/handleError'
-import classifyMethod from '@/utils/classifyMethod'
+import classifyRestfulMethod from '@/utils/classifyRestfulMethod'
 import messageJson from '@/api/ant/message.json'
 
 export default {
@@ -46,23 +46,14 @@ export default {
       })
   },
   updateMessage: async ({ commit, state }, payload) => {
-    // console.log('message actions.js')
-    const { originData, updatedData, changedProps } = payload
-    // console.log(changedProps)
+    console.log('message actions.js')
+    const { originData, updatedData } = payload
+    // console.log(originData)
+    // console.log(updatedData)
     // TODO classify post, put, patch
+    const results = classifyRestfulMethod(originData, updatedData)
+    console.log(results)
 
-    const methodList = []
-    changedProps.forEach(prop => {
-      if (_isEmpty(updatedData[prop])) {
-        methodList.push(classifyMethod(originData[prop], updatedData[prop]))
-      } else if (_isObject(updatedData[prop])) {
-        for (let i = 0; i < updatedData[prop].length; i += 1) {
-          methodList.push(classifyMethod((originData[prop] && originData[prop][i]) || null, updatedData[prop][i]))
-        }
-      } else {
-        methodList.push(classifyMethod(originData[prop], updatedData[prop]))
-      }
-    })
-    console.log(`methodList: ${methodList}`)
+    // commit('UPDATE_MESSAGE', updatedData)
   }
 }

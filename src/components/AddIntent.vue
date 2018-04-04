@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <ul
+    <!-- <ul
       @click="rowClick($event)"
     >
        <li
@@ -25,13 +25,15 @@
           {{ data[idx]}}
           <span class="close">x</span>
         </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
 <script>
+import hash from 'object-hash'
+
 export default {
-  name: 'AddList',
+  name: 'AddIntent',
   props: {
     data: {
       type: Array,
@@ -44,20 +46,26 @@ export default {
     }
   },
   methods: {
-    rowClick (evt) {
-      const rowIndex = this.data.findIndex((data, idx) => {
-        const startLength = evt.target.textContent.indexOf(data)
-        // return evt.target.textContent.slice(startLength, dataLength + startLength)
-        if (startLength > -1) {
-          return true
-        }
-        return false
-      })
-      this.data.splice(rowIndex, 1)
-    },
+    // rowClick (evt) {
+    //   const rowIndex = this.data.findIndex((data, idx) => {
+    //     const startLength = evt.target.textContent.indexOf(data)
+    //     // return evt.target.textContent.slice(startLength, dataLength + startLength)
+    //     if (startLength > -1) {
+    //       return true
+    //     }
+    //     return false
+    //   })
+    //   this.data.splice(rowIndex, 1)
+    // },
     addRow () {
       if (this.inputText.length) {
-        this.data.push(this.inputText)
+        this.data.push({
+          text: this.inputText,
+          id: hash({
+            text: this.inputText,
+            random: Math.random()
+          })
+        })
         this.inputText = ''
       }
     }

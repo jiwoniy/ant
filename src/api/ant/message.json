@@ -95,7 +95,9 @@
   }, {
     "pk": 502,
     "message": "test 9",
-    "ai_intent": ["promotion"],
+    "ai_intent": [{
+      "text": "promotion"
+    }],
     "ai_entity": [{
       "raw": "WHVT3",
       "name": "promo_code",
