@@ -1,9 +1,12 @@
 <template>
   <div class="card">
     <!-- <img src="img_avatar.png" alt="Avatar"> -->
-    <!-- <header class="card__container header">
-      <h3>Entity</h3>
-    </header> -->
+    <header class="card__container header">
+      <button
+        v-if="deleteEntity"
+        @click="clickDelete"> delete
+      </button>
+    </header>
 
     <div class="card__container container">
       <p
@@ -16,13 +19,12 @@
       <div
         v-if="isCategory"
       >
-        SubCategory: <select class="select">
+        SubCategory: <select class="select" v-model="subCategoryValue">
           <option
             v-for="(entry, idx) in subCategoryOptions"
-              :key="idx"
-              :data="entry"
+            :key="idx"
+            :data="entry"
           > {{ subCategoryOptions[idx] }}
-
           </option>
         </select>
       </div>
@@ -51,18 +53,33 @@ export default {
     isCategory: {
       type: Boolean,
       default: () => false
+    },
+    deleteEntity: {
+      type: Function,
+      default: null
     }
   },
   data () {
     return {
       subCategoryOptions: [],
-      entityProps: []
+      entityProps: [],
+      subCategoryValue: null
+    }
+  },
+  methods: {
+    clickDelete () {
+      this.deleteEntity(this.data)
     }
   },
   mounted () {
     this.entityProps = Object.keys(this.data)
+    this.subCategoryValue = this.data.subCategoryValue
     this.subCategoryOptions = categoryList.category[this.data.category]
-    // console.log(this.subCategoryOptions)
+  },
+  watch: {
+    subCategoryValue (newVal) {
+      this.data.subCategoryValue = newVal
+    }
   }
 }
 </script>

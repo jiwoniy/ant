@@ -9,23 +9,24 @@ const path = {
   fetchEntity (params = {}) {
     return Axios.get(`${baseUrl}/entity`, { params })
   },
-  postEntity (params = {}) {
-    return Axios.post(`${baseUrl}/entity`, { params })
-  },
-  putEntity (messageId, params = {}) {
-    return Axios.put(`${baseUrl}/entity/${messageId}`, { params })
-  },
-  patchEntity (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/entity/${messageId}`, { params })
-  },
-  deleteEntity (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/entity/${messageId}`, { params })
-  },
   fetchEntityCategory (params = {}) {
     return Axios.get(`${baseUrl}/entity/category`, { params })
+  },
+  postEntity (params = {}) {
+    return Axios.post(`${baseUrl}/entity`, params)
+  },
+  putEntity (messageId, params = {}) {
+    return Axios.put(`${baseUrl}/entity/${messageId}`, params)
+  },
+  patchEntity (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/entity/${messageId}`, params)
+  },
+  deleteEntity (messageId, params = {}) {
+    return Axios.patch(`${baseUrl}/entity/${messageId}`, params)
   }
 }
 
+// adujst get method cache
 memoizeInstance.setMemoizeFunction(['fetchEntity', 'fetchEntityCategory'])
 const wrapperPath = {}
 Object.keys(path).forEach((methodName) => {

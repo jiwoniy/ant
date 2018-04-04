@@ -10,16 +10,16 @@ const path = {
     return Axios.get(`${baseUrl}/intent`, { params })
   },
   postIntent (params = {}) {
-    return Axios.post(`${baseUrl}/intent`, { params })
+    return Axios.post(`${baseUrl}/intent`, params)
   },
   putIntent (messageId, params = {}) {
-    return Axios.put(`${baseUrl}/intent/${messageId}`, { params })
+    return Axios.put(`${baseUrl}/intent/${messageId}`, params)
   },
   patchIntent (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/intent/${messageId}`, { params })
+    return Axios.patch(`${baseUrl}/intent/${messageId}`, params)
   },
   deleteIntent (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/intent/${messageId}`, { params })
+    return Axios.patch(`${baseUrl}/intent/${messageId}`, params)
   }
 }
 

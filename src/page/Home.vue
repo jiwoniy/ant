@@ -12,11 +12,11 @@
 </template>
 
 <script>
+import _isEqual from 'lodash.isequal'
 import { mapActions, mapGetters } from 'vuex'
 // import _isEqual from 'lodash.isequal'
 
 import GridTable from '@/components/GridTable'
-import messageJson from '@/api/ant/message.json'
 
 export default {
   name: 'Home',
@@ -27,8 +27,8 @@ export default {
     return {
       isLoadBusy: false,
       columns: ['pk', 'message', 'ai_intent', 'intent', 'ai_entity', 'entity', 'check_status', 'skip'],
-      // gridData: this.getMessages(),
-      gridData: messageJson.results,
+      gridData: this.getMessages(),
+      // gridData: messageJson.results,
       apiCursor: null,
       apiQuery: {}
     }
@@ -43,27 +43,35 @@ export default {
     }),
     async loadMore () {
       const result = await this.fetchMessages()
-      console.log(result)
+      if (!result) {
+        // TODO error handleing
+      }
+
       this.isLoadBusy = false
     },
     updateData (updatedData, originData) {
-      // TODO
-      // check changed props
-      // compare only "ai_agent", "ent_agent"
-      // console.log(updatedData)
-      // console.log(originData)
-      // const updated = Object.keys(updatedData)
+      const changedProps = this.checkChangeProps(updatedData, originData)
+      this.updateMessage({ originData, updatedData, changedProps })
+    },
+    checkChangeProps (updatedData, originData) {
+      const updatedKeys = Object.keys(updatedData)
+        .filter(key => key === 'entity' || key === 'intent')
 
-      // updated.forEach((org) => {
-      //   if (org === 'ai_agent' || org === 'ent_agent') {
-      //     if (!_isEqual(updatedData[org], originData[org])) {
-      //       console.log('--changed props')
-      //       console.log(org)
-      //     }
-      //   }
-      // })
-
-      this.updateMessage({ data: updatedData })
+      const updatedProps = []
+      updatedKeys.forEach((key) => {
+        if (updatedData[key].length) {
+          if (!_isEqual(originData[key], updatedData[key])) {
+            updatedProps.push(key)
+          }
+        } else {
+          if (originData[key] && originData[key].length) {
+            if (!_isEqual(originData[key], updatedData[key])) {
+              updatedProps.push(key)
+            }
+          }
+        }
+      })
+      return updatedProps
     }
   },
   mounted () {

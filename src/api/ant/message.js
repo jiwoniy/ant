@@ -10,13 +10,13 @@ const path = {
     return Axios.get(`${baseUrl}/message`, { params })
   },
   changeMessageStatus (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/message/${messageId}/check`, { params })
+    return Axios.patch(`${baseUrl}/message/${messageId}/check`, params)
   },
   lockMessageStatus (messageId, params = {}) {
-    return Axios.put(`${baseUrl}/message/${messageId}/lock`, { params })
+    return Axios.put(`${baseUrl}/message/${messageId}/lock`, params)
   },
   skipMessageStatus (messageId, params = {}) {
-    return Axios.patch(`${baseUrl}/message/${messageId}/skip`, { params })
+    return Axios.patch(`${baseUrl}/message/${messageId}/skip`, params)
   }
 }
 

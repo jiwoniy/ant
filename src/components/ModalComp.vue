@@ -55,7 +55,7 @@
             >
               <div class="card--layout">
                 <entity-card
-                  v-for="(entry, idx) in bindData['ent_ai']"
+                  v-for="(entry, idx) in bindData['ai_entity']"
                   :key="idx"
                   :data="entry"
                   :getEntityValue="getEntityValue"
@@ -74,6 +74,7 @@
                   :data="entry"
                   :getEntityValue="getEntityValue"
                   :isCategory="true"
+                  :deleteEntity="deleteEntity"
                 >
                 </entity-card>
               </div>
@@ -105,8 +106,10 @@
 </template>
 
 <script>
+import hash from 'object-hash'
 import _isEqualWith from 'lodash.isequalwith'
 import _isEqual from 'lodash.isequal'
+import _cloneDeep from 'lodash.clonedeep'
 
 import EntityCard from './EntityCard'
 import IntentCard from './IntentCard'
@@ -140,7 +143,6 @@ export default {
   },
   data () {
     return {
-      inputElement: null,
       intentList: [],
       entityList: [],
       categoryList: Object.keys(categoryList.category),
@@ -148,6 +150,9 @@ export default {
     }
   },
   methods: {
+    dataInit () {
+      this.updateTwowayBinding(this.bindData)
+    },
     toggle () {
       const accordionChildren = this.$children
       for (let i = 0; i < accordionChildren.length; i += 1) {
@@ -192,51 +197,65 @@ export default {
     },
     selectEntityCategory (category) {
       const selectedMessage = window.getSelection().toString()
-      if (category && selectedMessage) {
+      const isRightSentence = this.checkIsSelectedMessage(selectedMessage, this.data.message)
+      if (category && isRightSentence) {
         this.entityList.push({
+          entityId: hash({
+            selectedMessage,
+            category,
+            randome: Math.random()
+          }),
           sentence: selectedMessage,
           category
         })
       }
     },
+    checkIsSelectedMessage (selectedMessage, message) {
+      if (selectedMessage.length && message.indexOf(selectedMessage) > -1) {
+        return true
+      }
+      return false
+    },
     updateTwowayBinding (computedParentData) {
-      this.entityList = computedParentData['ent_agent']
-      this.intentList = computedParentData['ai_agent']
+      this.entityList = computedParentData['entity']
+      this.intentList = computedParentData['intent']
     },
     isUpdated (origin, update) {
       // compare only "ai_agent", "ent_agent"
-      const updated = Object.keys(update)
+      const updatedKeys = Object.keys(update)
+        .filter(key => key === 'entity' || key === 'intent')
 
-      const isUpdate = updated.some((org) => {
-        if (org === 'ai_agent' || org === 'ent_agent') {
-          if (update[org] === null || update[org].length === 0) {
-            return false
-          } else {
-            return !_isEqual(origin[org], update[org])
-          }
+      const isUpdate = updatedKeys.some((key) => {
+        if (update[key].length) {
+          return !_isEqual(origin[key], update[key])
         }
-        return false
+        return !_isEqual(origin[key], null)
       })
 
-      // console.log(`isUpdate: ${isUpdate}`)
       return isUpdate
+    },
+    deleteEntity (entity) {
+      const uniqueId = entity.entityId || entity.pk
+      const deleteIndex = this.entityList.findIndex(ent => ent.entityId === uniqueId)
+      console.log(`deleteIndex: ${deleteIndex}`)
+      this.entityList.splice(deleteIndex, 1)
     }
   },
   computed: {
     bindData () {
       // ['pk', 'message', 'ai_intent', 'intent', 'ai_entity', 'entity', 'check_status', 'skip'],
       return {
-        'ai_intent': this.data['ai_intent'] || [],
-        'ai_entity': this.data['ai_entity'] || [],
-        'intent': this.data['intent'] || [],
-        'entity': this.data['entity'] || [],
+        'ai_intent': (this.data['ai_intent'] || []).slice(),
+        'ai_entity': (this.data['ai_entity'] || []).slice(),
+        'intent': _cloneDeep((this.data['intent'] && this.data['intent'].slice()) || []),
+        'entity': _cloneDeep((this.data['entity'] && this.data['entity'].slice()) || []),
         'pk': this.data.pk,
         'message': this.data.message
       }
     }
   },
   mounted () {
-    this.updateTwowayBinding(this.bindData)
+    this.dataInit()
   }
 }
 </script>
